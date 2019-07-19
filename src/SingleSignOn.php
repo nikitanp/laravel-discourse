@@ -1,10 +1,11 @@
 <?php
 
-namespace MatthewJensen\LaravelDiscourse\Traits;
+namespace MatthewJensen\LaravelDiscourse;
 
 use MatthewJensen\LaravelDiscourse\Exceptions\PayloadException;
+use MatthewJensen\LaravelDiscourse\Contracts\SingleSignOn as SingleSignOnContract;
 
-trait SingleSignOn {
+class SingleSignOn implements SingleSignOnContract {
 
     /**
      * @var

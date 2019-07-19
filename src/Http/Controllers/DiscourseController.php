@@ -18,7 +18,8 @@ use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
-use MatthewJensen\LaravelDiscourse\Contracts\DiscourseInterface as Discourse;
+use MatthewJensen\LaravelDiscourse\Contracts\SingleSignOn;
+use MatthewJensen\LaravelDiscourse\Contracts\ApiClient;
 use Auth;
 
 class DiscourseController extends Controller
@@ -50,11 +51,10 @@ class DiscourseController extends Controller
      * @param Config $config
      * @param SSOHelper $sso
      */
-    public function __construct(Config $config, Discourse $sso)
+    public function __construct(Config $config, SingleSignOn $sso)
     {
         $this->loadConfigs($config);
-
-        $this->sso = $sso->setSecret($this->config->get('secret'));
+        $this->sso = $sso;
     }
 
     /**
@@ -99,7 +99,7 @@ class DiscourseController extends Controller
      * @return mixed
      * @throws 403
      */
-    public function logout(Discourse $discourse, Request $request)
+    public function logout(ApiClient $discourse, Request $request)
     {
         
         $username = $discourse->getUsernameByEmail(Auth::user()->email);
@@ -154,7 +154,7 @@ class DiscourseController extends Controller
      */
     protected function loadConfigs(Config $config)
     {
-        $this->config = collect($config->get('services.discourse'));
+        $this->config = collect($config->get('discourse'));
         $this->config->put('user', collect($this->config->get('user')));
     }
 
