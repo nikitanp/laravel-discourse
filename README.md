@@ -3,10 +3,11 @@ PHP Discourse Client for the Laravel Framework
 
 ## Version Compatibility
 
- Laravel  | Discourse Client
-:---------|:----------
- > 5.8.x  | Untested
- 5.8.x    | 1.0
+ Laravel   | Discourse Client
+:--------- | :----------
+ > 5.8.x   | Untested
+ 5.8.x     | 0.0.1
+
 
 ## Getting Started
 
@@ -21,7 +22,7 @@ To install through composer, simply put the following in your `composer.json` fi
 ```json
 {
     "require": {
-        "matthew-jensen/laravel-discourse-client": "^1.0"
+        "matthew-jensen/laravel-discourse-client": "^0.0.1"
     }
 }
 ```
@@ -33,7 +34,7 @@ And then run `composer install` from the terminal.
 Above installation can also be simplify by using the following command:
 
 ```bash
-    composer require "matthew-jensen/larave-discourse-client=^1.0"
+    composer require "matthew-jensen/larave-discourse-client"
 ```
 
 ### Credits
