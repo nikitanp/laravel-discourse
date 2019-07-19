@@ -10,7 +10,9 @@ PHP Discourse Client for the Laravel Framework
 
 ## Getting Started
 
-Before going through the rest of this documentation, please take some time to read the [Discourse API Documentation](https://docs.discourse.org/). Not all of the API calls are documented, but it's a good place to start.
+Before going through the rest of this documentation, please take some time to read the [Discourse API Documentation](https://docs.discourse.org/).
+Not all of the API calls are documented, but it's a good place to start.
+Additional help with SSO: [https://meta.discourse.org](https://meta.discourse.org/c/dev/sso/24)
 
 ## Installation
 
@@ -34,4 +36,12 @@ Above installation can also be simplify by using the following command:
     composer require "matthew-jensen/larave-discourse-client=^1.0"
 ```
 
-### Quick Installation
+### Credits
+
+
+SSO Helper Methods: [cviebrock/discourse-php](https://github.com/cviebrock/discourse-php/).
+
+SSO Controller Methods: [spinen/laravel-discourse-sso](https://github.com/spinen/laravel-discourse-sso).
+
+API Methods: [discoursehosting/discourse-api-php](https://github.com/discoursehosting/discourse-api-php).
+
