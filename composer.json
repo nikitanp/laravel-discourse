@@ -1,0 +1,19 @@
+{
+    "name": "matthew-jensen/laravel-discourse",
+    "description": "PHP Discourse Forum API for the Laravel Framework",
+    "type": "library",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Matthew Jensen",
+            "email": "matt@happyhousemedia.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "orchestra/testbench": "^3.8"
+    },
+    "autoload": {
+        "psr-4": {"MatthewJensen\\LaravelDiscourse\\": "src/"}
+    }
+}
