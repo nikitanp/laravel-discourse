@@ -13,7 +13,9 @@ class DiscourseServiceProvider extends ServiceProvider
      * @return void
      */
     public function register() {
-
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/discourse.php', 'discourse'
+        );
     }
 
     /**
@@ -25,10 +27,13 @@ class DiscourseServiceProvider extends ServiceProvider
     public function boot() {
         $this->publishes([
             __DIR__.'/../config/discourse.php' => config_path('discourse.php'),
-        ]);
+        ], 'config');
         $this->app->singleton(\MatthewJensen\LaravelDiscourse\Contracts\ApiClient::class, function ($app) {
             $config = $app['config'];
-            return new Discourse($config->get('discourse.url'), $config->get('discourse.token'));
+            return new Discourse(
+                $config->get('discourse.url'), 
+                $config->get('discourse.token')
+            );
         });
         $this->app->singleton(\MatthewJensen\LaravelDiscourse\Contracts\SingleSignOn::class, function ($app) {
             $config = $app['config'];
@@ -40,15 +45,14 @@ class DiscourseServiceProvider extends ServiceProvider
     }
 
     private function loadRoutes() {
-        $this->app['router']->group(
-            ['middleware' => $this->app['config']->get('discourse.middleware', ['web', 'auth'])],
-            function (Router $router) {
+        $this->app['router']->middleware($this->app['config']->get('discourse.middleware', ['web', 'auth']))
+            ->group(function (Router $router) {
                 $router->get(
                     $this->app['config']->get('discourse.route'),
                     [
                         'uses' => 'MatthewJensen\LaravelDiscourse\Http\Controllers\DiscourseController@login',
                         'as'   => 'sso.login',
-                        'middleware' => ['auth','verified']
+                        'middleware' => ['auth']//,'verified']
                     ]
                 );
                 $router->get(
@@ -58,7 +62,6 @@ class DiscourseServiceProvider extends ServiceProvider
                         'as'   => 'sso.logout',
                     ]
                 );
-            }
-        );
+            });
     }
 }

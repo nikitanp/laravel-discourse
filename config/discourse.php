@@ -2,7 +2,7 @@
 return [
 
     // API token. 
-    'token' => env('DISCOURSE_TOKEN')
+    'token' => env('DISCOURSE_TOKEN'),
 
     // Middleware for the SSO login route to use
     'middleware' => ['web', 'auth'],

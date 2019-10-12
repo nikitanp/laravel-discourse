@@ -69,8 +69,7 @@ class DiscourseController extends Controller
     {
         $this->user = $request->user();
         $access = $this->config->get('user')
-                               ->get('access', null);
-
+                               ->get('access', true);
         if (! is_null($access) && ! $this->parseUserValue($access)) {
             abort(403); //Forbidden
         }
