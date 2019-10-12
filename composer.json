@@ -15,5 +15,16 @@
     },
     "autoload": {
         "psr-4": {"MatthewJensen\\LaravelDiscourse\\": "src/"}
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MatthewJensen\\LaravelDiscourse\\DiscourseServiceProvider"
+            ],
+            "aliases": {
+                "Discourse": "MatthewJensen\\LaravelDiscourse\\Facades\\Discourse",
+                "DiscourseAuth": "MatthewJensen\\LaravelDiscourse\\Facades\\DiscourseAuth"
+            }
+        }
     }
 }

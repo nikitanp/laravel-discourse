@@ -1,7 +1,7 @@
 <?php
 namespace Tests\Feature;
 
-use MatthewJensen\LaravelDiscourse\Facades\Discourse;
+use MatthewJensen\LaravelDiscourse\Facades\DiscourseAuth as Discourse;
 use Orchestra\Testbench\TestCase;
 
 class SingleSignOnTest extends TestCase

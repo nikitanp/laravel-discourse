@@ -14,8 +14,7 @@
 
 namespace MatthewJensen\LaravelDiscourse;
 
-use MatthewJensen\LaravelDiscourse\Contracts\DiscourseInterface;
-use MatthewJensen\LaravelDiscourse\Traits\SingleSignOn;
+use MatthewJensen\LaravelDiscourse\Contracts\ApiClient;
 use MatthewJensen\LaravelDiscourse\Traits\Requests;
 use MatthewJensen\LaravelDiscourse\Traits\Users;
 use MatthewJensen\LaravelDiscourse\Traits\Groups;
@@ -23,15 +22,17 @@ use MatthewJensen\LaravelDiscourse\Traits\Posts;
 use MatthewJensen\LaravelDiscourse\Traits\Topics;
 use MatthewJensen\LaravelDiscourse\Traits\Categories;
 use MatthewJensen\LaravelDiscourse\Traits\Tags;
+use SingleSignOn;
 
-class Discourse implements DiscourseInterface
+class Discourse implements ApiClient
 {
     // Most of the heavy lifting api requests are done in traits:
-    use Requests, Users, Groups, Posts, Topics, Categories, Tags, SingleSignOn;
+    use Requests, Users, Groups, Posts, Topics, Categories, Tags;
 
     private $_protocol;
     private $_apiKey;
     private $_dcHostname;
+
     /**
     *
     * @param        $host   host name of the forum.

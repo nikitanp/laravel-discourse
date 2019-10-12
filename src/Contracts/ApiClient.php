@@ -2,7 +2,7 @@
 
 namespace MatthewJensen\LaravelDiscourse\Contracts;
 
-interface DiscourseInterface {
+interface ApiClient {
 
     // users
     public function logoutUser(string $userName);
