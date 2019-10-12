@@ -31,7 +31,7 @@ class DiscourseServiceProvider extends ServiceProvider
         $this->app->singleton(\MatthewJensen\LaravelDiscourse\Contracts\ApiClient::class, function ($app) {
             $config = $app['config'];
             return new Discourse(
-                $config->get('discourse.url'), 
+                $this->remove_http($config->get('discourse.url')), 
                 $config->get('discourse.token')
             );
         });
@@ -63,5 +63,15 @@ class DiscourseServiceProvider extends ServiceProvider
                     ]
                 );
             });
+    }
+    // see: https://stackoverflow.com/questions/4357668/how-do-i-remove-http-https-and-slash-from-user-input-in-php
+    private function remove_http($url) {
+        $disallowed = array('http://', 'https://');
+        foreach($disallowed as $d) {
+            if(strpos($url, $d) === 0) {
+                return str_replace($d, '', $url);
+            }
+        }
+        return $url;
     }
 }

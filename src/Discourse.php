@@ -14,14 +14,14 @@
 
 namespace MatthewJensen\LaravelDiscourse;
 
-use Contracts\ApiClient;
-use Traits\Requests;
-use Traits\Users;
-use Traits\Groups;
-use Traits\Posts;
-use Traits\Topics;
-use Traits\Categories;
-use Traits\Tags;
+use MatthewJensen\LaravelDiscourse\Contracts\ApiClient;
+use MatthewJensen\LaravelDiscourse\Traits\Requests;
+use MatthewJensen\LaravelDiscourse\Traits\Users;
+use MatthewJensen\LaravelDiscourse\Traits\Groups;
+use MatthewJensen\LaravelDiscourse\Traits\Posts;
+use MatthewJensen\LaravelDiscourse\Traits\Topics;
+use MatthewJensen\LaravelDiscourse\Traits\Categories;
+use MatthewJensen\LaravelDiscourse\Traits\Tags;
 use SingleSignOn;
 
 class Discourse implements ApiClient
