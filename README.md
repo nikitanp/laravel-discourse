@@ -3,10 +3,10 @@ PHP Discourse Client for the Laravel Framework
 
 ## Version Compatibility
 
- Laravel   | Discourse Client
-:--------- | :----------
- > 5.8.x   | Untested
- 5.8.x     | 0.0.1
+| Laravel   | Discourse Client |
+| :-------- | :---------- |
+| > 5.8.x   | Untested |
+| 5.8.x     | 0.0.2 |
 
 
 ## Getting Started
@@ -22,7 +22,7 @@ To install through composer, simply put the following in your `composer.json` fi
 ```json
 {
     "require": {
-        "matthew-jensen/laravel-discourse-client": "^0.0.1"
+        "matthew-jensen/laravel-discourse-client": "^0.0.2"
     }
 }
 ```
@@ -45,14 +45,6 @@ You can optionally publish the config file with:
 ```bash
 php artisan vendor:publish --provider="MatthewJensen\LaravelDiscourse\DiscourseServiceProvider" --tag="config"
 
-```
-
-Set the API Token, Forum url and SSO Token in your .env:
-
-```
-DISCOURSE_URL=https://forum.url
-DISCOURSE_SECRET={sso secret}
-DISCOURSE_TOKEN={api token}
 ```
 
 This is the contents of the published config file:
@@ -132,9 +124,40 @@ return [
     ],
 ];
 ```
+# Configure Laravel Discourse
+
+## Laravel Env
+
+Set the API Token, Forum url and SSO Token in your .env:
+
+```
+DISCOURSE_URL=https://forum.url
+DISCOURSE_SECRET={sso secret}
+DISCOURSE_TOKEN={api token}
+```
+
+## Discourse Env
+
+**Enable SSO**
+Via UI:
+see: "{DISCOURSE\_URL}/admin/site\_settings/category/required?filter="
+
+Via console:
+
+```bash
+cd /var/discourse
+./launcher enter app
+rails c
+irb > SiteSetting.sso_secret = {config('discourse.secret')}
+irb > SiteSetting.sso_url = {config('discourse.route')}
+irb > SiteSetting.logout_redirect = {config('discourse.logout')}
+irb > SiteSetting.enable_sso = true
+irb > SiteSetting.enable_local_logins = false
+irb > exit
+exit
+```
 
 ### Credits
-
 
 SSO Helper Methods: [cviebrock/discourse-php](https://github.com/cviebrock/discourse-php/).
 
