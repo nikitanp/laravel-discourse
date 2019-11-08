@@ -45,7 +45,13 @@ class DiscourseServiceProvider extends ServiceProvider
     }
 
     private function loadRoutes() {
-        $this->app['router']->middleware($this->app['config']->get('discourse.middleware', ['web', 'auth']))
+        $this->app['router']
+            ->domain(
+                $this->app['config']->get('discourse.domain')
+            )
+            ->middleware(
+                $this->app['config']->get('discourse.middleware', ['web', 'auth'])
+            )
             ->group(function (Router $router) {
                 $router->get(
                     $this->app['config']->get('discourse.route'),

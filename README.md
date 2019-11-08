@@ -157,6 +157,9 @@ irb > exit
 exit
 ```
 
+# TODO
+- [ ] Artisan command to set sso secret, route and enable sso to install out of the box (could be done via API calls in Facade).
+
 ### Credits
 
 SSO Helper Methods: [cviebrock/discourse-php](https://github.com/cviebrock/discourse-php/).
