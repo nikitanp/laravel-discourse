@@ -11,5 +11,5 @@ class Discourse extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return \MatthewJensen\LaravelDiscourse\Contracts\DiscourseInterface::class; }
+    protected static function getFacadeAccessor() { return \MatthewJensen\LaravelDiscourse\Contracts\ApiClient::class; }
 }
