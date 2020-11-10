@@ -1,11 +1,11 @@
 <?php
 /**
-*
-* Discourse Groups
-*
-* @link https://docs.discourse.org/#tag/Groups
-*
-**/
+ *
+ * Discourse Groups
+ *
+ * @link https://docs.discourse.org/#tag/Groups
+ *
+ **/
 
 namespace MatthewJensen\LaravelDiscourse\Traits;
 
@@ -14,20 +14,24 @@ trait Requests {
 
     /** @noinspection MoreThanThreeArgumentsInspection */
     /**
-        * @param string $reqString
-        * @param array  $paramArray
-        * @param string $apiUser
-        * @param string $HTTPMETHOD
-        * @return \stdClass
-        *
-        **/
+     * @param string $reqString
+     * @param array  $paramArray
+     * @param string $apiUser
+     * @param string $HTTPMETHOD
+     * @return \stdClass
+     *
+     **/
     private function _getRequest(string $reqString, array $paramArray = [], string $apiUser = 'system', $HTTPMETHOD = 'GET'): \stdClass
     {
-        $paramArray['api_key']      = $this->_apiKey;
-        $paramArray['api_username'] = $apiUser;
         $paramArray['show_emails']  = 'true';
-        $ch                         = curl_init();
+
         $url                        = sprintf('%s://%s%s?%s', $this->_protocol, $this->_dcHostname, $reqString, http_build_query($paramArray));
+
+        $ch                         = curl_init();
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Api-Key: " . $this->_apiKey,
+            "Api-Username: $apiUser"
+        ]);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMETHOD);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -49,16 +53,21 @@ trait Requests {
 
     /** @noinspection MoreThanThreeArgumentsInspection * */
     /**
-        * @param string $reqString
-        * @param array  $paramArray
-        * @param string $apiUser
-        * @param string $HTTPMETHOD
-        * @return \stdClass
-        **/
+     * @param string $reqString
+     * @param array  $paramArray
+     * @param string $apiUser
+     * @param string $HTTPMETHOD
+     * @return \stdClass
+     **/
     private function _putpostRequest(string $reqString, array $paramArray, string $apiUser = 'system', $HTTPMETHOD = 'POST'): \stdClass
     {
+        $url = sprintf('%s://%s%s', $this->_protocol, $this->_dcHostname, $reqString);
+
         $ch  = curl_init();
-        $url = sprintf('%s://%s%s?api_key=%s&api_username=%s', $this->_protocol, $this->_dcHostname, $reqString, $this->_apiKey, $apiUser);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Api-Key: " . $this->_apiKey,
+            "Api-Username: $apiUser"
+        ]);
         curl_setopt($ch, CURLOPT_URL, $url);
         $query = '';
         if (isset($paramArray['group']) && is_array($paramArray['group'])) {
@@ -90,36 +99,37 @@ trait Requests {
     }
 
     /**
-        * @param string $reqString
-        * @param array  $paramArray
-        * @param string $apiUser
-        * @return \stdClass
-        */
+     * @param string $reqString
+     * @param array  $paramArray
+     * @param string $apiUser
+     * @return \stdClass
+     */
     private function _deleteRequest(string $reqString, array $paramArray, string $apiUser = 'system'): \stdClass
     {
         return $this->_putpostRequest($reqString, $paramArray, $apiUser, 'DELETE');
     }
 
     /**
-        * @param string $reqString
-        * @param array  $paramArray
-        * @param string $apiUser
-        * @return \stdClass
-        */
+     * @param string $reqString
+     * @param array  $paramArray
+     * @param string $apiUser
+     * @return \stdClass
+     */
     private function _putRequest(string $reqString, array $paramArray, string $apiUser = 'system'): \stdClass
     {
         return $this->_putpostRequest($reqString, $paramArray, $apiUser, 'PUT');
     }
 
     /**
-        * @param string $reqString
-        * @param array  $paramArray
-        * @param string $apiUser
-        * @return \stdClass
-        */
+     * @param string $reqString
+     * @param array  $paramArray
+     * @param string $apiUser
+     * @return \stdClass
+     */
     private function _postRequest(string $reqString, array $paramArray, string $apiUser = 'system'): \stdClass
     {
         /** @noinspection ArgumentEqualsDefaultValueInspection * */
         return $this->_putpostRequest($reqString, $paramArray, $apiUser, 'POST');
     }
 }
+
