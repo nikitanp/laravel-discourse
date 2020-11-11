@@ -16,6 +16,7 @@ namespace MatthewJensen\LaravelDiscourse;
 
 use MatthewJensen\LaravelDiscourse\Contracts\ApiClient;
 use MatthewJensen\LaravelDiscourse\Traits\Requests;
+use MatthewJensen\LaravelDiscourse\Traits\Upload;
 use MatthewJensen\LaravelDiscourse\Traits\Users;
 use MatthewJensen\LaravelDiscourse\Traits\Groups;
 use MatthewJensen\LaravelDiscourse\Traits\Posts;
@@ -27,7 +28,7 @@ use SingleSignOn;
 class Discourse implements ApiClient
 {
     // Most of the heavy lifting api requests are done in traits:
-    use Requests, Users, Groups, Posts, Topics, Categories, Tags;
+    use Requests, Users, Groups, Posts, Topics, Categories, Tags, Upload;
 
     private $_protocol;
     private $_apiKey;
