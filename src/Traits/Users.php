@@ -21,30 +21,29 @@ trait Users {
     */
     public function logoutUser(string $userName)
     {
-        $userid  = $this->getUserByUsername($userName)->apiresult->user->id;
-        if (!\is_int($userid)) {
+        $userId  = $this->getUserByUsername($userName)->apiresult->user->id;
+        if (!is_int($userId)) {
             return false;
         }
 
-        return $this->_postRequest('/admin/users/'.$userid.'/log_out', []);
+        return $this->_postRequest('/admin/users/'.$userId.'/log_out', []);
     }
 
 
     /**
-    *
-    * createUser
-    *
-    * @param string $name         name of new user
-    * @param string $userName     username of new user
-    * @param string $emailAddress email address of new user
-    * @param string $password     password of new user
-    *
-    * @return mixed HTTP return code and API return object
-    *
-    * @noinspection MoreThanThreeArgumentsInspection
-    *
-    */
-    public function createUser(string $name, string $userName, string $emailAddress, string $password)
+     *
+     * createUser
+     *
+     * @param string $name name of new user
+     * @param string $userName username of new user
+     * @param string $emailAddress email address of new user
+     * @param string $password password of new user
+     *
+     * @param bool $active
+     * @param bool $approved
+     * @return mixed HTTP return code and API return object
+     */
+    public function createUser(string $name, string $userName, string $emailAddress, string $password, bool $active = true, bool $approved = true)
     {
         $obj = $this->_getRequest('/users/hp.json');
         if ($obj->http_code !== 200) {
@@ -57,7 +56,9 @@ trait Users {
             'email'                 => $emailAddress,
             'password'              => $password,
             'challenge'             => strrev($obj->apiresult->challenge),
-            'password_confirmation' => $obj->apiresult->value
+            'password_confirmation' => $obj->apiresult->value,
+            'active'                => $active,
+            'approved'              => $approved
         ];
 
         return $this->_postRequest('/users', [$params]);
