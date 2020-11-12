@@ -12,7 +12,7 @@ interface ApiClient
 
     public function activateUser($userId);
 
-    public function getUsernameByEmail($email);
+    public function getUsernameByEmail(string $email, bool $useFilter = true);
 
     public function getUserByUsername($userName);
 

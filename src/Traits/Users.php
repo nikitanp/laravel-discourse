@@ -1,32 +1,35 @@
 <?php
 /**
-*
-* Discourse Users
-*
-* @link https://docs.discourse.org/#tag/Users
-*
-**/
+ *
+ * Discourse Users
+ *
+ * @link https://docs.discourse.org/#tag/Users
+ *
+ **/
 
 namespace MatthewJensen\LaravelDiscourse\Traits;
 
-trait Users {
+use stdClass;
+
+trait Users
+{
 
     /**
-    * 
-    * Used for SSO logout action.
-    *
-    * @param string $userName     username of user to be logged out.
-    *
-    * @return mixed HTTP return code and API return object
-    */
+     *
+     * Used for SSO logout action.
+     *
+     * @param string $userName username of user to be logged out.
+     *
+     * @return mixed HTTP return code and API return object
+     */
     public function logoutUser(string $userName)
     {
-        $userId  = $this->getUserByUsername($userName)->apiresult->user->id;
+        $userId = $this->getUserByUsername($userName)->apiresult->user->id;
         if (!is_int($userId)) {
             return false;
         }
 
-        return $this->_postRequest('/admin/users/'.$userId.'/log_out', []);
+        return $this->_postRequest('/admin/users/' . $userId . '/log_out', []);
     }
 
 
@@ -51,42 +54,46 @@ trait Users {
         }
 
         $params = [
-            'name'                  => $name,
-            'username'              => $userName,
-            'email'                 => $emailAddress,
-            'password'              => $password,
-            'challenge'             => strrev($obj->apiresult->challenge),
+            'name' => $name,
+            'username' => $userName,
+            'email' => $emailAddress,
+            'password' => $password,
+            'challenge' => strrev($obj->apiresult->challenge),
             'password_confirmation' => $obj->apiresult->value,
-            'active'                => $active,
-            'approved'              => $approved
+            'active' => $active,
+            'approved' => $approved
         ];
 
         return $this->_postRequest('/users', [$params]);
     }
 
     /**
-        * activateUser
-        *
-        * @param integer $userId id of user to activate
-        *
-        * @return mixed HTTP return code
-        */
+     * activateUser
+     *
+     * @param integer $userId id of user to activate
+     *
+     * @return mixed HTTP return code
+     */
     public function activateUser($userId)
     {
         return $this->_putRequest("/admin/users/{$userId}/activate", []);
     }
 
     /**
-        * getUsernameByEmail
-        *
-        * @param string $email email of user
-        *
-        * @return mixed HTTP return code and API return object
-        */
-    public function getUsernameByEmail($email)
+     * getUsernameByEmail
+     *
+     * @param string $email email of user
+     * @param bool $useFilter use filter parameter in query
+     * @return mixed HTTP return code and API return object
+     */
+    public function getUsernameByEmail(string $email, bool $useFilter = true)
     {
-        $users = $this->_getRequest('/admin/users/list/active.json');
-        //$users = $this->_getRequest('/admin/users/list/active.json?filter=' . urlencode($email));
+        if ($useFilter) {
+            $users = $this->_getRequest('/admin/users/list/active.json?filter=' . urlencode($email));
+        } else {
+            $users = $this->_getRequest('/admin/users/list/active.json');
+        }
+
         foreach ($users->apiresult as $user) {
             if ($user->email === $email) {
                 return $user->username;
@@ -97,39 +104,39 @@ trait Users {
     }
 
     /**
-        * getUserByUsername
-        *
-        * @param string $userName username of user
-        *
-        * @return mixed HTTP return code and API return object
-        */
+     * getUserByUsername
+     *
+     * @param string $userName username of user
+     *
+     * @return mixed HTTP return code and API return object
+     */
     public function getUserByUsername($userName)
     {
         return $this->_getRequest("/users/{$userName}.json");
     }
 
     /**
-        * getUserByExternalID
-        *
-        * @param string $externalID     external id of sso user
-        *
-        * @return mixed HTTP return code and API return object
-        */
+     * getUserByExternalID
+     *
+     * @param string $externalID external id of sso user
+     *
+     * @return mixed HTTP return code and API return object
+     */
     function getUserByExternalID($externalID)
     {
         return $this->_getRequest("/users/by-external/{$externalID}.json");
     }
 
     /**
-        * @param        $email
-        * @param        $topicId
-        * @param string $userName
-        * @return \stdClass
-        */
-    public function inviteUser($email, $topicId, $userName = 'system'): \stdClass
+     * @param        $email
+     * @param        $topicId
+     * @param string $userName
+     * @return stdClass
+     */
+    public function inviteUser($email, $topicId, $userName = 'system'): stdClass
     {
         $params = [
-            'email'    => $email,
+            'email' => $email,
             'topic_id' => $topicId
         ];
 
@@ -137,12 +144,12 @@ trait Users {
     }
 
     /**
-        * getUserByEmail
-        *
-        * @param string $email email of user
-        *
-        * @return mixed user object
-        */
+     * getUserByEmail
+     *
+     * @param string $email email of user
+     *
+     * @return mixed user object
+     */
     public function getUserByEmail($email)
     {
         $users = $this->_getRequest('/admin/users/list/active.json', [
@@ -158,12 +165,12 @@ trait Users {
     }
 
     /**
-        * getUserBadgesByUsername
-        *
-        * @param string $userName username of user
-        *
-        * @return mixed HTTP return code and list of badges for given user
-        */
+     * getUserBadgesByUsername
+     *
+     * @param string $userName username of user
+     *
+     * @return mixed HTTP return code and list of badges for given user
+     */
     public function getUserBadgesByUsername($userName)
     {
         return $this->_getRequest("/user-badges/{$userName}.json");
