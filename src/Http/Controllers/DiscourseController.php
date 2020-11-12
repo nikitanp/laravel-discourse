@@ -13,14 +13,14 @@
 
 namespace MatthewJensen\LaravelDiscourse\Http\Controllers;
 
+use Auth;
 use Illuminate\Contracts\Auth\Authenticatable as User;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
-use MatthewJensen\LaravelDiscourse\Contracts\SingleSignOn;
 use MatthewJensen\LaravelDiscourse\Contracts\ApiClient;
-use Auth;
+use MatthewJensen\LaravelDiscourse\Contracts\SingleSignOn;
 
 class DiscourseController extends Controller
 {
@@ -34,7 +34,7 @@ class DiscourseController extends Controller
     /**
      * SSOHelper Instance
      *
-     * @var SSOHelper
+     * @var SingleSignOn
      */
     protected $sso;
 
@@ -49,7 +49,7 @@ class DiscourseController extends Controller
      * SsoController constructor.
      *
      * @param Config $config
-     * @param SSOHelper $sso
+     * @param SingleSignOn $sso
      */
     public function __construct(Config $config, SingleSignOn $sso)
     {
@@ -69,25 +69,25 @@ class DiscourseController extends Controller
     {
         $this->user = $request->user();
         $access = $this->config->get('user')
-                               ->get('access', true);
-        if (! is_null($access) && ! $this->parseUserValue($access)) {
+            ->get('access', true);
+        if (!is_null($access) && !$this->parseUserValue($access)) {
             abort(403); //Forbidden
         }
 
-        if (! ($this->sso->validatePayload($payload = $request->get('sso'), $request->get('sig')))) {
+        if (!($this->sso->validatePayload($payload = $request->get('sso'), $request->get('sig')))) {
             abort(403); //Forbidden
         }
 
         $query = $this->sso->getSignInString(
             $this->sso->getNonce($payload),
             $this->parseUserValue($this->config->get('user')
-                                               ->get('external_id')),
+                ->get('external_id')),
             $this->parseUserValue($this->config->get('user')
-                                               ->get('email')),
+                ->get('email')),
             $this->buildExtraParameters()
         );
 
-        return redirect(str_finish($this->config->get('url'), '/').'session/sso_login?'.$query);
+        return redirect(str_finish($this->config->get('url'), '/') . 'session/sso_login?' . $query);
     }
 
     /**
@@ -100,7 +100,7 @@ class DiscourseController extends Controller
      */
     public function logout(ApiClient $discourse, Request $request)
     {
-        
+
         $username = $discourse->getUsernameByEmail(Auth::user()->email);
         // logout laravel user.
         // logout discourse user.
@@ -137,7 +137,7 @@ class DiscourseController extends Controller
      */
     public function castBooleansToString($property)
     {
-        if (! is_bool($property)) {
+        if (!is_bool($property)) {
             return $property;
         }
 
@@ -179,7 +179,7 @@ class DiscourseController extends Controller
      */
     public function parseUserValue($property)
     {
-        if (! is_string($property)) {
+        if (!is_string($property)) {
             return $property;
         }
 

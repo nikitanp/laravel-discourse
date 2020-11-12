@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Feature;
 
 use MatthewJensen\LaravelDiscourse\Facades\DiscourseAuth as Discourse;
@@ -17,21 +18,24 @@ class SingleSignOnTest extends TestCase
      */
     protected $sso;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
         Discourse::setSecret(self::SECRET);
         \Auth::routes();
     }
+
     protected function getPackageProviders($app)
     {
         return ['MatthewJensen\LaravelDiscourse\DiscourseServiceProvider'];
     }
 
-    public function testController() {
+    public function testController()
+    {
         $response = $this->get(route('sso.logout'));
         $response->assertRedirect(route('login'));
     }
+
     public function testInOut()
     {
         $this->assertTrue(
@@ -81,10 +85,10 @@ class SingleSignOnTest extends TestCase
         $userId = 1234;
         $userEmail = 'sso@example.com';
         $extraParams = array(
-            'nonce'       => 'junk',
+            'nonce' => 'junk',
             'external_id' => 'junk',
-            'email'       => 'junk',
-            'only_me'     => 'gets_through',
+            'email' => 'junk',
+            'only_me' => 'gets_through',
         );
         $response = Discourse::getSignInString(
             Discourse::getNonce(self::PAYLOAD), $userId, $userEmail, $extraParams

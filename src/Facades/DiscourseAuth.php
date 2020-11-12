@@ -11,5 +11,8 @@ class DiscourseAuth extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return \MatthewJensen\LaravelDiscourse\Contracts\SingleSignOn::class; }
+    protected static function getFacadeAccessor()
+    {
+        return \MatthewJensen\LaravelDiscourse\Contracts\SingleSignOn::class;
+    }
 }

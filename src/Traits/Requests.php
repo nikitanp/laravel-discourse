@@ -9,13 +9,11 @@
 
 namespace MatthewJensen\LaravelDiscourse\Traits;
 
-trait Requests {
-
-
-    /** @noinspection MoreThanThreeArgumentsInspection */
+trait Requests
+{
     /**
      * @param string $reqString
-     * @param array  $paramArray
+     * @param array $paramArray
      * @param string $apiUser
      * @param string $HTTPMETHOD
      * @return \stdClass
@@ -23,11 +21,9 @@ trait Requests {
      **/
     private function _getRequest(string $reqString, array $paramArray = [], string $apiUser = 'system', $HTTPMETHOD = 'GET'): \stdClass
     {
-        $paramArray['show_emails']  = 'true';
+        $url = sprintf('%s://%s%s?%s', $this->_protocol, $this->_dcHostname, $reqString, http_build_query($paramArray));
 
-        $url                        = sprintf('%s://%s%s?%s', $this->_protocol, $this->_dcHostname, $reqString, http_build_query($paramArray));
-
-        $ch                         = curl_init();
+        $ch = curl_init();
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Api-Key: " . $this->_apiKey,
             "Api-Username: $apiUser"
@@ -37,12 +33,12 @@ trait Requests {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         $body = curl_exec($ch);
-        $rc   = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $rc = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-        $resObj            = new \stdClass();
+        $resObj = new \stdClass();
         $resObj->http_code = $rc;
         // Only return valid json
-        $json              = json_decode($body);
+        $json = json_decode($body);
         $resObj->apiresult = $body;
         if (json_last_error() === JSON_ERROR_NONE) {
             $resObj->apiresult = $json;
@@ -51,10 +47,9 @@ trait Requests {
         return $resObj;
     }
 
-    /** @noinspection MoreThanThreeArgumentsInspection * */
     /**
      * @param string $reqString
-     * @param array  $paramArray
+     * @param array $paramArray
      * @param string $apiUser
      * @param string $HTTPMETHOD
      * @return \stdClass
@@ -63,7 +58,7 @@ trait Requests {
     {
         $url = sprintf('%s://%s%s', $this->_protocol, $this->_dcHostname, $reqString);
 
-        $ch  = curl_init();
+        $ch = curl_init();
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Api-Key: " . $this->_apiKey,
             "Api-Username: $apiUser"
@@ -84,10 +79,10 @@ trait Requests {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMETHOD);
         $body = curl_exec($ch);
-        $rc   = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $rc = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-        $resObj            = new \stdClass();
-        $json              = json_decode($body);
+        $resObj = new \stdClass();
+        $json = json_decode($body);
         $resObj->apiresult = $body;
         if (json_last_error() === JSON_ERROR_NONE) {
             $resObj->apiresult = $json;
@@ -100,7 +95,7 @@ trait Requests {
 
     /**
      * @param string $reqString
-     * @param array  $paramArray
+     * @param array $paramArray
      * @param string $apiUser
      * @return \stdClass
      */
@@ -111,7 +106,7 @@ trait Requests {
 
     /**
      * @param string $reqString
-     * @param array  $paramArray
+     * @param array $paramArray
      * @param string $apiUser
      * @return \stdClass
      */
@@ -122,13 +117,12 @@ trait Requests {
 
     /**
      * @param string $reqString
-     * @param array  $paramArray
+     * @param array $paramArray
      * @param string $apiUser
      * @return \stdClass
      */
     private function _postRequest(string $reqString, array $paramArray, string $apiUser = 'system'): \stdClass
     {
-        /** @noinspection ArgumentEqualsDefaultValueInspection * */
         return $this->_putpostRequest($reqString, $paramArray, $apiUser, 'POST');
     }
 }

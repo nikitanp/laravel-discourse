@@ -2,10 +2,11 @@
 
 namespace MatthewJensen\LaravelDiscourse;
 
-use MatthewJensen\LaravelDiscourse\Exceptions\PayloadException;
 use MatthewJensen\LaravelDiscourse\Contracts\SingleSignOn as SingleSignOnContract;
+use MatthewJensen\LaravelDiscourse\Exceptions\PayloadException;
 
-class SingleSignOn implements SingleSignOnContract {
+class SingleSignOn implements SingleSignOnContract
+{
 
     /**
      * @var
@@ -80,9 +81,9 @@ class SingleSignOn implements SingleSignOnContract {
     {
 
         $parameters = array(
-                'nonce'       => $nonce,
+                'nonce' => $nonce,
                 'external_id' => $id,
-                'email'       => $email,
+                'email' => $email,
             ) + $extraParameters;
 
         $payload = base64_encode(http_build_query($parameters));

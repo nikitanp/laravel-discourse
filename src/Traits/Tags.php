@@ -1,15 +1,16 @@
 <?php
 /**
-*
-* Discourse Tags
-*
-* @link https://docs.discourse.org/#tag/Tags
-*
-**/
+ *
+ * Discourse Tags
+ *
+ * @link https://docs.discourse.org/#tag/Tags
+ *
+ **/
 
 namespace MatthewJensen\LaravelDiscourse\Traits;
 
-trait Tags {
+trait Tags
+{
 
     public function getTag($name)
     {

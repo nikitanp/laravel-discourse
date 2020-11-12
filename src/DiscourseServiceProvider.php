@@ -2,8 +2,8 @@
 
 namespace MatthewJensen\LaravelDiscourse;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Routing\Registrar as Router;
+use Illuminate\Support\ServiceProvider;
 
 class DiscourseServiceProvider extends ServiceProvider
 {
@@ -12,9 +12,10 @@ class DiscourseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register() {
+    public function register()
+    {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/discourse.php', 'discourse'
+            __DIR__ . '/../config/discourse.php', 'discourse'
         );
     }
 
@@ -24,14 +25,15 @@ class DiscourseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot() {
+    public function boot()
+    {
         $this->publishes([
-            __DIR__.'/../config/discourse.php' => config_path('discourse.php'),
+            __DIR__ . '/../config/discourse.php' => config_path('discourse.php'),
         ], 'config');
         $this->app->singleton(\MatthewJensen\LaravelDiscourse\Contracts\ApiClient::class, function ($app) {
             $config = $app['config'];
             return new Discourse(
-                $this->remove_http($config->get('discourse.url')), 
+                $this->remove_http($config->get('discourse.url')),
                 $config->get('discourse.token')
             );
         });
@@ -44,7 +46,8 @@ class DiscourseServiceProvider extends ServiceProvider
         $this->loadRoutes();
     }
 
-    private function loadRoutes() {
+    private function loadRoutes()
+    {
         $this->app['router']
             ->domain(
                 $this->app['config']->get('discourse.domain')
@@ -57,7 +60,7 @@ class DiscourseServiceProvider extends ServiceProvider
                     $this->app['config']->get('discourse.route'),
                     [
                         'uses' => 'MatthewJensen\LaravelDiscourse\Http\Controllers\DiscourseController@login',
-                        'as'   => 'sso.login',
+                        'as' => 'sso.login',
                         'middleware' => ['auth']//,'verified']
                     ]
                 );
@@ -65,16 +68,18 @@ class DiscourseServiceProvider extends ServiceProvider
                     $this->app['config']->get('discourse.logout'),
                     [
                         'uses' => 'MatthewJensen\LaravelDiscourse\Http\Controllers\DiscourseController@logout',
-                        'as'   => 'sso.logout',
+                        'as' => 'sso.logout',
                     ]
                 );
             });
     }
+
     // see: https://stackoverflow.com/questions/4357668/how-do-i-remove-http-https-and-slash-from-user-input-in-php
-    private function remove_http($url) {
+    private function remove_http($url)
+    {
         $disallowed = array('http://', 'https://');
-        foreach($disallowed as $d) {
-            if(strpos($url, $d) === 0) {
+        foreach ($disallowed as $d) {
+            if (strpos($url, $d) === 0) {
                 return str_replace($d, '', $url);
             }
         }
