@@ -95,9 +95,10 @@ trait Users
 
             $users = [];
             $page = 1;
+
             do {
-                $resultUsers = $this->_getRequest("/admin/users/list/active.json?page={$page}");
-                $users += $resultUsers->apiresult;
+                $resultUsers = $this->_getRequest("/admin/users/list/active.json?show_emails=true&page={$page}");
+                $users = array_merge($users, $resultUsers->apiresult);
                 $page++;
             } while (!empty($resultUsers->apiresult));
         }
