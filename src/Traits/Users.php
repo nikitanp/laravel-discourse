@@ -74,7 +74,7 @@ trait Users
      *
      * @return mixed HTTP return code
      */
-    public function activateUser($userId)
+    public function activateUser(int $userId)
     {
         return $this->_putRequest("/admin/users/{$userId}/activate", []);
     }
@@ -84,19 +84,20 @@ trait Users
      *
      * @param string $email email of user
      * @param bool $useFilter use filter parameter in query
-     * @return mixed HTTP return code and API return object
+     * @return string|bool username or false if not found
      */
     public function getUsernameByEmail(string $email, bool $useFilter = true)
     {
         if ($useFilter) {
-            $result = $this->_getRequest('/admin/users/list/active.json',['filter' => $email]);
+            $result = $this->_getRequest('/admin/users/list/active.json', ['filter' => $email]);
             return $this->searchUserInUsersByEmail($result->apiresult, $email);
         }
 
+        //If no used filter (why not? ¯\_(ツ)_/¯) fetches all users and... Compare email with each user email
         $page = 1;
 
         do {
-            $resultUsers = $this->_getRequest("/admin/users/list/active.json?show_emails=true&page={$page}");
+            $resultUsers = $this->_getRequest("/admin/users/list/active.json", ['page' => $page]);
 
             if ($userName = $this->searchUserInUsersByEmail($resultUsers->apiresult, $email)) {
                 return $userName;
@@ -105,10 +106,15 @@ trait Users
             $page++;
         } while (!empty($resultUsers->apiresult));
 
-
         return false;
     }
 
+    /**
+     * Search user by email in array of users
+     * @param array $users
+     * @param string $email
+     * @return string|bool username or false if not found
+     */
     private function searchUserInUsersByEmail(array $users, string $email)
     {
         foreach ($users as $user) {
@@ -126,7 +132,7 @@ trait Users
      *
      * @return mixed HTTP return code and API return object
      */
-    public function getUserByUsername($userName)
+    public function getUserByUsername(string $userName)
     {
         return $this->_getRequest("/users/{$userName}.json");
     }
@@ -138,7 +144,7 @@ trait Users
      *
      * @return mixed HTTP return code and API return object
      */
-    function getUserByExternalID($externalID)
+    function getUserByExternalID(string $externalID)
     {
         return $this->_getRequest("/users/by-external/{$externalID}.json");
     }
@@ -149,7 +155,7 @@ trait Users
      * @param string $userName
      * @return stdClass
      */
-    public function inviteUser($email, $topicId, $userName = 'system'): stdClass
+    public function inviteUser(string $email, int $topicId, string $userName = 'system'): stdClass
     {
         $params = [
             'email' => $email,
@@ -166,7 +172,7 @@ trait Users
      *
      * @return mixed user object
      */
-    public function getUserByEmail($email)
+    public function getUserByEmail(string $email)
     {
         $users = $this->_getRequest('/admin/users/list/active.json', [
             'filter' => $email
@@ -187,7 +193,7 @@ trait Users
      *
      * @return mixed HTTP return code and list of badges for given user
      */
-    public function getUserBadgesByUsername($userName)
+    public function getUserBadgesByUsername(string $userName)
     {
         return $this->_getRequest("/user-badges/{$userName}.json");
     }

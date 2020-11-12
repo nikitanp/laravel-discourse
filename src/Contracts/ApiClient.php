@@ -10,17 +10,19 @@ interface ApiClient
 
     public function createUser(string $name, string $userName, string $emailAddress, string $password, bool $active, bool $approved);
 
-    public function activateUser($userId);
+    public function activateUser(int $userId);
 
     public function getUsernameByEmail(string $email, bool $useFilter = true);
 
-    public function getUserByUsername($userName);
+    public function getUserByUsername(string $userName);
 
-    public function inviteUser($email, $topicId, $userName = 'system');
+    public function inviteUser(string $email, int $topicId, string $userName = 'system');
 
-    public function getUserByEmail($email);
+    public function getUserByEmail(string $email);
 
-    public function getUserBadgesByUsername($userName);
+    public function getUserByExternalID(string $externalID);
+
+    public function getUserBadgesByUsername(string $userName);
 
     // groups
     public function getGroups();
