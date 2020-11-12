@@ -90,25 +90,32 @@ trait Users
     {
         if ($useFilter) {
             $result = $this->_getRequest('/admin/users/list/active.json?filter=' . urlencode($email))->apiresult;
-            $users = $result->apiresult;
-        } else {
-
-            $users = [];
-            $page = 1;
-
-            do {
-                $resultUsers = $this->_getRequest("/admin/users/list/active.json?show_emails=true&page={$page}");
-                $users = array_merge($users, $resultUsers->apiresult);
-                $page++;
-            } while (!empty($resultUsers->apiresult));
+            return $this->searchUserInUsersByEmail($result->apiresult, $email);
         }
 
+        $page = 1;
+
+        do {
+            $resultUsers = $this->_getRequest("/admin/users/list/active.json?show_emails=true&page={$page}");
+
+            if ($userName = $this->searchUserInUsersByEmail($resultUsers->apiresult, $email)) {
+                return $userName;
+            }
+
+            $page++;
+        } while (!empty($resultUsers->apiresult));
+
+
+        return false;
+    }
+
+    private function searchUserInUsersByEmail(array $users, string $email)
+    {
         foreach ($users as $user) {
             if ($user->email === $email) {
                 return $user->username;
             }
         }
-
         return false;
     }
 
