@@ -89,12 +89,20 @@ trait Users
     public function getUsernameByEmail(string $email, bool $useFilter = true)
     {
         if ($useFilter) {
-            $users = $this->_getRequest('/admin/users/list/active.json?filter=' . urlencode($email));
+            $result = $this->_getRequest('/admin/users/list/active.json?filter=' . urlencode($email))->apiresult;
+            $users = $result->apiresult;
         } else {
-            $users = $this->_getRequest('/admin/users/list/active.json');
+
+            $users = [];
+            $page = 1;
+            do {
+                $resultUsers = $this->_getRequest("/admin/users/list/active.json?page={$page}");
+                $users += $resultUsers->apiresult;
+                $page++;
+            } while (!empty($resultUsers->apiresult));
         }
 
-        foreach ($users->apiresult as $user) {
+        foreach ($users as $user) {
             if ($user->email === $email) {
                 return $user->username;
             }
