@@ -89,7 +89,7 @@ trait Users
     public function getUsernameByEmail(string $email, bool $useFilter = true)
     {
         if ($useFilter) {
-            $result = $this->_getRequest('/admin/users/list/active.json?filter='.$email);
+            $result = $this->_getRequest('/admin/users/list/active.json',['filter' => $email]);
             return $this->searchUserInUsersByEmail($result->apiresult, $email);
         }
 
