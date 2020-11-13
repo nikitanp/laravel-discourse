@@ -24,7 +24,7 @@ trait Requests
         $url = sprintf('%s://%s%s?%s', $this->_protocol, $this->_dcHostname, ltrim($reqString, '/'), http_build_query($paramArray));
 
         if ($useArrayNumIndexes === false) {
-            $url = preg_replace('/%5B\d+%5D/imU', '%5B%5D', $url);
+            $url = preg_replace('/\%5B\d+\%5D/', '%5B%5D', http_build_query($url));
         }
 
         $ch = curl_init();
