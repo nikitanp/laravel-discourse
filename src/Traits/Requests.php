@@ -21,7 +21,7 @@ trait Requests
      **/
     private function _getRequest(string $reqString, array $paramArray = [], string $apiUser = 'system', $HTTPMETHOD = 'GET'): \stdClass
     {
-        $url = sprintf('%s://%s%s?%s', $this->_protocol, $this->_dcHostname, $reqString, http_build_query($paramArray));
+        $url = sprintf('%s://%s%s?%s', $this->_protocol, $this->_dcHostname, ltrim($reqString, '/'), http_build_query($paramArray));
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -56,7 +56,7 @@ trait Requests
      **/
     private function _putpostRequest(string $reqString, array $paramArray, string $apiUser = 'system', $HTTPMETHOD = 'POST'): \stdClass
     {
-        $url = sprintf('%s://%s%s', $this->_protocol, $this->_dcHostname, $reqString);
+        $url = sprintf('%s://%s%s', $this->_protocol, $this->_dcHostname, ltrim($reqString, '/'));
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
