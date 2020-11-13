@@ -81,7 +81,7 @@ trait Posts
         $postIds = array_slice($discourseTopic->apiresult->post_stream->stream, 0, $limit);
 
         if (!empty($postIds)) {
-            return $this->_getRequest("/t/{$topicId}/posts.json", ['post_ids' => $postIds])->apiresult->post_stream->posts ?? null;
+            return $this->_getRequest("/t/{$topicId}/posts.json", ['post_ids' => $postIds],'system', false)->apiresult->post_stream->posts ?? null;
         }
 
         return null;
