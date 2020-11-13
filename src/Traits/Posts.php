@@ -74,20 +74,11 @@ trait Posts
     public function getSpecificPostsInTopic(int $topicId, int $limit = 10)
     {
         $discourseTopic = $this->getTopic($topicId);
-        if (!isset($discourseTopic->apiresult->post_stream->posts) || empty($discourseTopic->apiresult->post_stream->posts)) {
+        if (!isset($discourseTopic->apiresult->post_stream->stream) || empty($discourseTopic->apiresult->post_stream->stream)) {
             return null;
         }
 
-        $postIds = [];
-        $count = 0;
-        foreach ($discourseTopic->apiresult->post_stream->posts as $streamPostItem) {
-            $postIds[] = $streamPostItem->id;
-            $count++;
-
-            if ($limit <= $count) {
-                break;
-            }
-        }
+        $postIds = array_slice($discourseTopic->apiresult->post_stream->stream, 0, $limit);
 
         if (!empty($postIds)) {
             return $this->_getRequest("/t/{$topicId}/posts.json", ['post_ids' => $postIds])->apiresult->post_stream->posts ?? null;
