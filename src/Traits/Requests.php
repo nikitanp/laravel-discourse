@@ -15,13 +15,17 @@ trait Requests
      * @param string $reqString
      * @param array $paramArray
      * @param string $apiUser
-     * @param string $HTTPMETHOD
+     * @param bool $useArrayNumIndexes
      * @return \stdClass
      *
-     **/
-    private function _getRequest(string $reqString, array $paramArray = [], string $apiUser = 'system', $HTTPMETHOD = 'GET'): \stdClass
+     */
+    private function _getRequest(string $reqString, array $paramArray = [], string $apiUser = 'system', bool $useArrayNumIndexes = true): \stdClass
     {
         $url = sprintf('%s://%s%s?%s', $this->_protocol, $this->_dcHostname, ltrim($reqString, '/'), http_build_query($paramArray));
+
+        if ($useArrayNumIndexes === false) {
+            $url = preg_replace('/%5B\d+%5D/imU', '%5B%5D', $url);
+        }
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -29,12 +33,12 @@ trait Requests
             "Api-Username: $apiUser"
         ]);
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMETHOD);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         $body = curl_exec($ch);
         $rc = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
+
         $resObj = new \stdClass();
         $resObj->http_code = $rc;
         // Only return valid json
