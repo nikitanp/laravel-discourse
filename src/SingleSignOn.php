@@ -1,9 +1,9 @@
 <?php
 
-namespace MatthewJensen\LaravelDiscourse;
+namespace NikitaMikhno\LaravelDiscourse;
 
-use MatthewJensen\LaravelDiscourse\Contracts\SingleSignOn as SingleSignOnContract;
-use MatthewJensen\LaravelDiscourse\Exceptions\PayloadException;
+use NikitaMikhno\LaravelDiscourse\Contracts\SingleSignOn as SingleSignOnContract;
+use NikitaMikhno\LaravelDiscourse\Exceptions\PayloadException;
 
 class SingleSignOn implements SingleSignOnContract
 {

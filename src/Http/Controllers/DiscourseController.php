@@ -11,7 +11,7 @@
  *
  */
 
-namespace MatthewJensen\LaravelDiscourse\Http\Controllers;
+namespace NikitaMikhno\LaravelDiscourse\Http\Controllers;
 
 use Auth;
 use Illuminate\Contracts\Auth\Authenticatable as User;
@@ -19,8 +19,8 @@ use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
-use MatthewJensen\LaravelDiscourse\Contracts\ApiClient;
-use MatthewJensen\LaravelDiscourse\Contracts\SingleSignOn;
+use NikitaMikhno\LaravelDiscourse\Contracts\ApiClient;
+use NikitaMikhno\LaravelDiscourse\Contracts\SingleSignOn;
 
 class DiscourseController extends Controller
 {

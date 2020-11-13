@@ -1,6 +1,6 @@
 <?php
 
-namespace MatthewJensen\LaravelDiscourse\Facades;
+namespace NikitaMikhno\LaravelDiscourse\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -13,6 +13,6 @@ class Discourse extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return \MatthewJensen\LaravelDiscourse\Contracts\ApiClient::class;
+        return \NikitaMikhno\LaravelDiscourse\Contracts\ApiClient::class;
     }
 }

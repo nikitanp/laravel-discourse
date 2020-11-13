@@ -1,6 +1,6 @@
 <?php
 
-namespace MatthewJensen\LaravelDiscourse\Contracts;
+namespace NikitaMikhno\LaravelDiscourse\Contracts;
 
 interface ApiClient
 {

@@ -5,23 +5,23 @@
  *
  * Expanded on original by DiscourseHosting
  *
- * @author       Matthew Jensen
+ * @author       Matthew Jensen, Nikita Mikhno
  * @license      http://www.gnu.org/licenses/gpl-3.0.html GPL-3.0
- * @link         https://github.com/matthew-jensen/laravel-discourse-client
+ * @link         https://github.com/nikitanp/laravel-discourse-client
  **/
 
-namespace MatthewJensen\LaravelDiscourse;
+namespace NikitaMikhno\LaravelDiscourse;
 
-use MatthewJensen\LaravelDiscourse\Contracts\ApiClient;
-use MatthewJensen\LaravelDiscourse\Traits\Categories;
-use MatthewJensen\LaravelDiscourse\Traits\Groups;
-use MatthewJensen\LaravelDiscourse\Traits\Posts;
-use MatthewJensen\LaravelDiscourse\Traits\Requests;
-use MatthewJensen\LaravelDiscourse\Traits\Tags;
-use MatthewJensen\LaravelDiscourse\Traits\Topics;
-use MatthewJensen\LaravelDiscourse\Traits\Upload;
-use MatthewJensen\LaravelDiscourse\Traits\Users;
-use SingleSignOn;
+use NikitaMikhno\LaravelDiscourse\Contracts\ApiClient;
+use NikitaMikhno\LaravelDiscourse\Traits\Categories;
+use NikitaMikhno\LaravelDiscourse\Traits\Groups;
+use NikitaMikhno\LaravelDiscourse\Traits\Posts;
+use NikitaMikhno\LaravelDiscourse\Traits\Requests;
+use NikitaMikhno\LaravelDiscourse\Traits\Tags;
+use NikitaMikhno\LaravelDiscourse\Traits\Topics;
+use NikitaMikhno\LaravelDiscourse\Traits\Upload;
+use NikitaMikhno\LaravelDiscourse\Traits\Users;
+use NikitaMikhno\LaravelDiscourse\SingleSignOn;
 
 class Discourse implements ApiClient
 {

@@ -1,5 +1,5 @@
 {
-  "name": "matthew-jensen/laravel-discourse",
+  "name": "nikitanp/laravel-discourse",
   "description": "PHP Discourse Forum API for the Laravel Framework",
   "type": "library",
   "license": "GPL-3.0",
@@ -7,6 +7,10 @@
     {
       "name": "Matthew Jensen",
       "email": "matt@happyhousemedia.com"
+    },
+    {
+      "name": "Nikita Mikhno",
+      "email": "nikita.mikhnonp@gmail.com"
     }
   ],
   "require": {
@@ -18,17 +22,17 @@
   },
   "autoload": {
     "psr-4": {
-      "MatthewJensen\\LaravelDiscourse\\": "src/"
+      "NikitaMikhno\\LaravelDiscourse\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "MatthewJensen\\LaravelDiscourse\\DiscourseServiceProvider"
+        "NikitaMikhno\\LaravelDiscourse\\DiscourseServiceProvider"
       ],
       "aliases": {
-        "Discourse": "MatthewJensen\\LaravelDiscourse\\Facades\\Discourse",
-        "DiscourseAuth": "MatthewJensen\\LaravelDiscourse\\Facades\\DiscourseAuth"
+        "Discourse": "NikitaMikhno\\LaravelDiscourse\\Facades\\Discourse",
+        "DiscourseAuth": "NikitaMikhno\\LaravelDiscourse\\Facades\\DiscourseAuth"
       }
     }
   }

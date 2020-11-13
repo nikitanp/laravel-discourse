@@ -1,6 +1,6 @@
 <?php
 
-namespace MatthewJensen\LaravelDiscourse;
+namespace NikitaMikhno\LaravelDiscourse;
 
 use Illuminate\Contracts\Routing\Registrar as Router;
 use Illuminate\Support\ServiceProvider;
@@ -30,14 +30,14 @@ class DiscourseServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../config/discourse.php' => config_path('discourse.php'),
         ], 'config');
-        $this->app->singleton(\MatthewJensen\LaravelDiscourse\Contracts\ApiClient::class, function ($app) {
+        $this->app->singleton(\NikitaMikhno\LaravelDiscourse\Contracts\ApiClient::class, function ($app) {
             $config = $app['config'];
             return new Discourse(
                 $this->remove_http($config->get('discourse.url')),
                 $config->get('discourse.token')
             );
         });
-        $this->app->singleton(\MatthewJensen\LaravelDiscourse\Contracts\SingleSignOn::class, function ($app) {
+        $this->app->singleton(\NikitaMikhno\LaravelDiscourse\Contracts\SingleSignOn::class, function ($app) {
             $config = $app['config'];
             $sso = new SingleSignOn();
             $sso->setSecret($config->get('discourse.secret'));
@@ -59,7 +59,7 @@ class DiscourseServiceProvider extends ServiceProvider
                 $router->get(
                     $this->app['config']->get('discourse.route'),
                     [
-                        'uses' => 'MatthewJensen\LaravelDiscourse\Http\Controllers\DiscourseController@login',
+                        'uses' => 'NikitaMikhno\LaravelDiscourse\Http\Controllers\DiscourseController@login',
                         'as' => 'sso.login',
                         'middleware' => ['auth']//,'verified']
                     ]
@@ -67,7 +67,7 @@ class DiscourseServiceProvider extends ServiceProvider
                 $router->get(
                     $this->app['config']->get('discourse.logout'),
                     [
-                        'uses' => 'MatthewJensen\LaravelDiscourse\Http\Controllers\DiscourseController@logout',
+                        'uses' => 'NikitaMikhno\LaravelDiscourse\Http\Controllers\DiscourseController@logout',
                         'as' => 'sso.logout',
                     ]
                 );

@@ -1,6 +1,6 @@
 <?php
 
-namespace MatthewJensen\LaravelDiscourse\Exceptions;
+namespace NikitaMikhno\LaravelDiscourse\Exceptions;
 
 class PayloadException extends \Exception
 {

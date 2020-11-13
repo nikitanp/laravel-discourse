@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use MatthewJensen\LaravelDiscourse\Facades\DiscourseAuth as Discourse;
+use NikitaMikhno\LaravelDiscourse\Facades\DiscourseAuth as Discourse;
 use Orchestra\Testbench\TestCase;
 
 class SingleSignOnTest extends TestCase
@@ -27,7 +27,7 @@ class SingleSignOnTest extends TestCase
 
     protected function getPackageProviders($app)
     {
-        return ['MatthewJensen\LaravelDiscourse\DiscourseServiceProvider'];
+        return ['NikitaMikhno\LaravelDiscourse\DiscourseServiceProvider'];
     }
 
     public function testController()
@@ -64,7 +64,7 @@ class SingleSignOnTest extends TestCase
     }
 
     /**
-     * @expectedException \MatthewJensen\LaravelDiscourse\Exceptions\PayloadException
+     * @expectedException \NikitaMikhno\LaravelDiscourse\Exceptions\PayloadException
      */
     public function testNonceBad1()
     {
@@ -73,7 +73,7 @@ class SingleSignOnTest extends TestCase
     }
 
     /**
-     * @expectedException \MatthewJensen\LaravelDiscourse\Exceptions\PayloadException
+     * @expectedException \NikitaMikhno\LaravelDiscourse\Exceptions\PayloadException
      */
     public function testNonceBad2()
     {

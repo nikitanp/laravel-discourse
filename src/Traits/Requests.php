@@ -7,7 +7,7 @@
  *
  **/
 
-namespace MatthewJensen\LaravelDiscourse\Traits;
+namespace NikitaMikhno\LaravelDiscourse\Traits;
 
 trait Requests
 {

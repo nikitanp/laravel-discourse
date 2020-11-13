@@ -7,7 +7,7 @@
  *
  **/
 
-namespace MatthewJensen\LaravelDiscourse\Traits;
+namespace NikitaMikhno\LaravelDiscourse\Traits;
 
 trait Topics
 {
@@ -79,5 +79,15 @@ trait Topics
     public function latestTopics($category)
     {
         return $this->_getRequest('/c/' . $category . '/l/latest.json');
+    }
+
+    /**
+     * delete single topic
+     * @param int $topicId
+     * @return mixed
+     */
+    public function deleteTopic(int $topicId)
+    {
+        return $this->_deleteRequest("/t/{$topicId}.json", [])->http_code === 200;
     }
 }
