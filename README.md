@@ -5,7 +5,7 @@ PHP Discourse Client for the Laravel Framework
 
 | Laravel   | Discourse Client |
 | :-------- | :---------- |
-| > 5.8.x   | dev-master |
+| > \>5.8   | 0.0.3 |
 
 
 ## Getting Started
@@ -21,7 +21,7 @@ To install through composer, simply put the following in your `composer.json` fi
 ```json
 {
     "require": {
-        "nikitanp/laravel-discourse-client": "^0.0.2"
+        "nikitanp/laravel-discourse": "^0.0.3"
     }
 }
 ```
