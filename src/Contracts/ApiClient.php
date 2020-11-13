@@ -68,6 +68,8 @@ interface ApiClient
 
     public function latestTopics($category);
 
+    public function deleteTopic(int $topicId);
+
     // posts
     public function createPost(string $bodyText, $topicId, string $userName);
 
