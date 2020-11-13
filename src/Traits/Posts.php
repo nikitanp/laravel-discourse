@@ -64,4 +64,35 @@ trait Posts
 
         return $this->_putRequest('/posts/' . $post_id, [$params], $userName);
     }
+
+    /**
+     * get count posts from topic
+     * @param int $topicId
+     * @param int $limit
+     * @return object|null
+     */
+    public function getSpecificPostsInTopic(int $topicId, int $limit = 10)
+    {
+        $discourseTopic = $this->getTopic($topicId);
+        if (!isset($discourseTopic->apiresult->post_stream->posts) || empty($discourseTopic->apiresult->post_stream->posts)) {
+            return null;
+        }
+
+        $postIds = [];
+        $count = 0;
+        foreach ($discourseTopic->apiresult->post_stream->posts as $streamPostItem) {
+            $postIds[] = $streamPostItem->id;
+            $count++;
+
+            if ($limit <= $count) {
+                break;
+            }
+        }
+
+        if (!empty($postIds)) {
+            return $this->_getRequest("/t/{$topicId}/posts.json", ['post_ids' => $postIds])->apiresult->post_stream->posts ?? null;
+        }
+
+        return null;
+    }
 }

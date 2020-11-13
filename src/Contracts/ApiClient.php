@@ -77,6 +77,8 @@ interface ApiClient
 
     public function updatePost($bodyhtml, $post_id, $userName = 'system');
 
+    public function getSpecificPostsInTopic(int $topicId, int $limit = 10);
+
     // tags
     public function getTag($name);
 
