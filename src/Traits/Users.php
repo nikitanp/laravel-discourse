@@ -133,7 +133,7 @@ trait Users
      */
     public function getUserByUsername(string $userName)
     {
-        return $this->_getRequest("/users/{$userName}.json");
+        return $this->_getRequest("/users/{$userName}.json?show_emails=true");
     }
 
     /**
