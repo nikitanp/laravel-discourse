@@ -21,11 +21,9 @@ trait Requests
      */
     private function _getRequest(string $reqString, array $paramArray = [], string $apiUser = 'system', bool $useArrayNumIndexes = true): \stdClass
     {
-        $url = sprintf('%s://%s%s?%s', $this->_protocol, $this->_dcHostname, ltrim($reqString, '/'), http_build_query($paramArray));
+        $queryParams = $useArrayNumIndexes ? http_build_query($paramArray) : preg_replace('/\%5B\d+\%5D/', '%5B%5D', http_build_query($paramArray));
 
-        if ($useArrayNumIndexes === false) {
-            $url = preg_replace('/\%5B\d+\%5D/', '%5B%5D', http_build_query($url));
-        }
+        $url = sprintf('%s://%s%s?%s', $this->_protocol, $this->_dcHostname, ltrim($reqString, '/'), $queryParams);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
