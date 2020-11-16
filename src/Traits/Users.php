@@ -88,7 +88,7 @@ trait Users
     public function getUsernameByEmail(string $email, bool $useFilter = true)
     {
         if ($useFilter) {
-            $result = $this->_getRequest('/admin/users/list/active.json', ['filter' => $email, 'show_emails' => true]);
+            $result = $this->_getRequest('/admin/users/list/active.json', ['filter' => $email, 'show_emails' => 'true']);
             return $this->searchUserInUsersByEmail($result->apiresult, $email);
         }
 
@@ -96,7 +96,7 @@ trait Users
         $page = 1;
 
         do {
-            $resultUsers = $this->_getRequest("/admin/users/list/active.json", ['page' => $page, 'show_emails' => true]);
+            $resultUsers = $this->_getRequest("/admin/users/list/active.json", ['page' => $page, 'show_emails' => 'true']);
 
             if ($userName = $this->searchUserInUsersByEmail($resultUsers->apiresult, $email)) {
                 return $userName;
@@ -174,7 +174,8 @@ trait Users
     public function getUserByEmail(string $email)
     {
         $users = $this->_getRequest('/admin/users/list/active.json', [
-            'filter' => $email
+            'filter' => $email,
+            'show_emails' => 'true'
         ]);
         foreach ($users->apiresult as $user) {
             if (strtolower($user->email) === strtolower($email)) {
