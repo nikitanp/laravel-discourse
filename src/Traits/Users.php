@@ -33,6 +33,16 @@ trait Users
     }
 
     /**
+     * Get list emails by username
+     * @param string $username
+     * @return mixed
+     */
+    public function getUserEmails(string $username)
+    {
+        return $this->_getRequest("/users/{$username}/emails.json", []);
+    }
+
+    /**
      *
      * createUser
      *
