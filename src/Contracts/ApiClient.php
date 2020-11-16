@@ -24,6 +24,8 @@ interface ApiClient
 
     public function getUserBadgesByUsername(string $userName);
 
+    public function getUserEmails(string $username);
+
     // groups
     public function getGroups();
 
