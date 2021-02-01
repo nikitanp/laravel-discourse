@@ -30,20 +30,24 @@ class DiscourseServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../config/discourse.php' => config_path('discourse.php'),
         ], 'config');
+
         $this->app->singleton(\NikitaMikhno\LaravelDiscourse\Contracts\ApiClient::class, function ($app) {
-            $config = $app['config'];
             return new Discourse(
-                $this->remove_http($config->get('discourse.url')),
-                $config->get('discourse.token')
+                $this->remove_http($this->app['config']->get('discourse.url')),
+                $this->app['config']->get('discourse.token')
             );
         });
-        $this->app->singleton(\NikitaMikhno\LaravelDiscourse\Contracts\SingleSignOn::class, function ($app) {
-            $config = $app['config'];
-            $sso = new SingleSignOn();
-            $sso->setSecret($config->get('discourse.secret'));
-            return $sso;
-        });
-        $this->loadRoutes();
+
+        if($this->app['config']->get('discourse.sso_enabled', false)) {
+            $this->app->singleton(\NikitaMikhno\LaravelDiscourse\Contracts\SingleSignOn::class, function ($app) {
+                $sso = new SingleSignOn();
+                $sso->setSecret($this->app['config']->get('discourse.secret'));
+
+                return $sso;
+            });
+
+            $this->loadRoutes();
+        }
     }
 
     private function loadRoutes()

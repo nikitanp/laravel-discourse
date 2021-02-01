@@ -4,6 +4,8 @@ return [
     // API token. 
     'token' => env('DISCOURSE_TOKEN'),
 
+    'sso_enabled' => env('DISCOURSE_SSO_ENABLED', false),
+
     // Middleware for the SSO login route to use
     'middleware' => ['web', 'auth'],
 

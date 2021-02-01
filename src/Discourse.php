@@ -21,7 +21,6 @@ use NikitaMikhno\LaravelDiscourse\Traits\Tags;
 use NikitaMikhno\LaravelDiscourse\Traits\Topics;
 use NikitaMikhno\LaravelDiscourse\Traits\Upload;
 use NikitaMikhno\LaravelDiscourse\Traits\Users;
-use NikitaMikhno\LaravelDiscourse\SingleSignOn;
 
 class Discourse implements ApiClient
 {
@@ -55,11 +54,10 @@ class Discourse implements ApiClient
     public function changeSiteSetting($siteSetting, $value): \stdClass
     {
         $params = [
-            $siteSetting => $value
+            $siteSetting => $value,
         ];
 
         return $this->_putRequest('/admin/site_settings/' . $siteSetting, [$params]);
     }
-
 
 }
