@@ -70,7 +70,7 @@ trait Users
             'challenge' => strrev($obj->apiresult->challenge),
             'password_confirmation' => $obj->apiresult->value,
             'active' => $active,
-            'approved' => $approved
+            'approved' => $approved,
         ];
 
         return $this->_postRequest('/users', [$params]);
@@ -127,7 +127,7 @@ trait Users
     private function searchUserInUsersByEmail(array $users, string $email)
     {
         foreach ($users as $user) {
-            if ($user->email === $email) {
+            if (strtolower($user->email) === strtolower($email)) {
                 return $user->username;
             }
         }
@@ -168,7 +168,7 @@ trait Users
     {
         $params = [
             'email' => $email,
-            'topic_id' => $topicId
+            'topic_id' => $topicId,
         ];
 
         return $this->_postRequest('/t/' . (int)$topicId . '/invite.json', [$params], $userName);
@@ -185,7 +185,7 @@ trait Users
     {
         $users = $this->_getRequest('/admin/users/list/active.json', [
             'filter' => $email,
-            'show_emails' => 'true'
+            'show_emails' => 'true',
         ]);
         foreach ($users->apiresult as $user) {
             if (strtolower($user->email) === strtolower($email)) {
