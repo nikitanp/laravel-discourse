@@ -9,12 +9,19 @@
 
 namespace NikitaMikhno\LaravelDiscourse\Traits;
 
+use stdClass;
+
 trait Topics
 {
     public function getLatestTopicsForTag($name)
     {
         $url = "/tags/{$name}/l/latest.json?order=default&ascending=false&filter=tags/{$name}/l/latest";
         return $this->_getRequest($url)->apiresult->topic_list->topics ?? [];
+    }
+
+    public function makeTopicUrl(string $slug, $id)
+    {
+        return trim(config('discourse.url'), '/') . "/t/{$slug}/{$id}";
     }
 
 
@@ -51,7 +58,7 @@ trait Topics
      * @param $topicId
      * @return \stdClass
      */
-    public function getTopic($topicId): \stdClass
+    public function getTopic($topicId): stdClass
     {
         return $this->_getRequest("/t/{$topicId}.json");
     }

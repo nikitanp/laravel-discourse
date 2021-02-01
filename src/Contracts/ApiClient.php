@@ -62,6 +62,8 @@ interface ApiClient
     public function deleteCategory($id);
 
     // topics
+    public function makeTopicUrl(string $slug, $id);
+
     public function createTopic(string $topicTitle, string $bodyText, string $categoryId, string $userName, int $replyToId = 0);
 
     public function getTopic($topicId);
