@@ -11,7 +11,6 @@ namespace NikitaMikhno\LaravelDiscourse\Traits;
 
 trait Tags
 {
-
     public function getTag($name)
     {
         $url = "/tags/{$name}";

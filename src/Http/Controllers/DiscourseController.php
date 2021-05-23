@@ -13,12 +13,13 @@
 
 namespace NikitaMikhno\LaravelDiscourse\Http\Controllers;
 
-use Auth;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Auth\Authenticatable as User;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use NikitaMikhno\LaravelDiscourse\Contracts\ApiClient;
 use NikitaMikhno\LaravelDiscourse\Contracts\SingleSignOn;
 
@@ -62,7 +63,7 @@ class DiscourseController extends Controller
      *
      * @param Request $request
      *
-     * @return mixed
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws 403
      */
     public function login(Request $request)
@@ -70,12 +71,13 @@ class DiscourseController extends Controller
         $this->user = $request->user();
         $access = $this->config->get('user')
             ->get('access', true);
+
         if (!is_null($access) && !$this->parseUserValue($access)) {
-            abort(403); //Forbidden
+            abort(403);
         }
 
         if (!($this->sso->validatePayload($payload = $request->get('sso'), $request->get('sig')))) {
-            abort(403); //Forbidden
+            abort(403);
         }
 
         $query = $this->sso->getSignInString(
@@ -87,26 +89,28 @@ class DiscourseController extends Controller
             $this->buildExtraParameters()
         );
 
-        return redirect(str_finish($this->config->get('url'), '/') . 'session/sso_login?' . $query);
+        return redirect(trim($this->config->get('url'), '/') . '/session/sso_login?' . $query);
     }
 
     /**
      * Process the SSO logout request from Discourse
      *
-     * @param Request $request
-     *
-     * @return mixed
-     * @throws 403
+     * @param ApiClient $discourse
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function logout(ApiClient $discourse, Request $request)
+    public function logout(ApiClient $discourse)
     {
+        if (!isset(Auth::user()->email)) {
+            throw new AuthorizationException('User is not logged in or email not provided!');
+        }
 
         $username = $discourse->getUsernameByEmail(Auth::user()->email);
-        // logout laravel user.
-        // logout discourse user.
-        // redirect to forum home.
+
         $discourse->logoutUser($username);
+
         Auth::logout();
+
         return redirect($this->config->get('url'));
     }
 
@@ -115,7 +119,7 @@ class DiscourseController extends Controller
      *
      * @return array
      */
-    protected function buildExtraParameters()
+    protected function buildExtraParameters(): array
     {
         return $this->config->get('user')
             ->except(['access', 'email', 'external_id'])
@@ -135,7 +139,7 @@ class DiscourseController extends Controller
      *
      * @return string
      */
-    public function castBooleansToString($property)
+    public function castBooleansToString($property): string
     {
         if (!is_bool($property)) {
             return $property;
@@ -151,9 +155,10 @@ class DiscourseController extends Controller
      *
      * @param Config $config
      */
-    protected function loadConfigs(Config $config)
+    protected function loadConfigs(Config $config): void
     {
         $this->config = collect($config->get('discourse'));
+
         $this->config->put('user', collect($this->config->get('user')));
     }
 
@@ -164,7 +169,7 @@ class DiscourseController extends Controller
      * @param string $property
      * @return bool
      */
-    public function nullProperty($property)
+    public function nullProperty(string $property): bool
     {
         return is_null($property);
     }
@@ -177,7 +182,7 @@ class DiscourseController extends Controller
      * @param string $property
      * @return mixed
      */
-    public function parseUserValue($property)
+    public function parseUserValue(string $property)
     {
         if (!is_string($property)) {
             return $property;

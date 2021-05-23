@@ -1,15 +1,5 @@
 <?php
 
-/**
- * Discourse API Client
- *
- * Expanded on original by DiscourseHosting
- *
- * @author       Matthew Jensen, Nikita Mikhno
- * @license      http://www.gnu.org/licenses/gpl-3.0.html GPL-3.0
- * @link         https://github.com/nikitanp/laravel-discourse-client
- **/
-
 namespace NikitaMikhno\LaravelDiscourse;
 
 use NikitaMikhno\LaravelDiscourse\Contracts\ApiClient;
@@ -25,31 +15,45 @@ use NikitaMikhno\LaravelDiscourse\Traits\Users;
 class Discourse implements ApiClient
 {
     // Most of the heavy lifting api requests are done in traits:
-    use Requests, Users, Groups, Posts, Topics, Categories, Tags, Upload;
+    use Requests;
+    use Users;
+    use Groups;
+    use Posts;
+    use Topics;
+    use Categories;
+    use Tags;
+    use Upload;
 
-    private $_protocol;
-    private $_apiKey;
-    private $_dcHostname;
+    /**
+     * @var string
+     */
+    private $protocol;
+    /**
+     * @var string|null
+     */
+    private $apiKey;
+    /**
+     * @var string
+     */
+    private $hostname;
 
     /**
      *
-     * @param        $host   host name of the forum.
-     * @param null $apiKey
+     * @param string $host host name of the forum.
+     * @param string|null $apiKey
      * @param string $protocol
      */
-    public function __construct($host, $apiKey = null, $protocol = 'https')
+    public function __construct(string $host, ?string $apiKey = null, string $protocol = 'https')
     {
-        $this->_dcHostname = $host;
-        $this->_apiKey = $apiKey;
-        $this->_protocol = $protocol;
+        $this->hostname = $host;
+        $this->apiKey = $apiKey;
+        $this->protocol = $protocol;
     }
 
     /**
-     *
      * @param $siteSetting
      * @param $value
      * @return \stdClass
-     *
      */
     public function changeSiteSetting($siteSetting, $value): \stdClass
     {
@@ -59,5 +63,4 @@ class Discourse implements ApiClient
 
         return $this->_putRequest('/admin/site_settings/' . $siteSetting, [$params]);
     }
-
 }

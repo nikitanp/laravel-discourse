@@ -4,6 +4,8 @@ namespace NikitaMikhno\LaravelDiscourse;
 
 use Illuminate\Contracts\Routing\Registrar as Router;
 use Illuminate\Support\ServiceProvider;
+use NikitaMikhno\LaravelDiscourse\Contracts\ApiClient as ApiClientContract;
+use NikitaMikhno\LaravelDiscourse\Contracts\SingleSignOn as SingleSignOnContract;
 
 class DiscourseServiceProvider extends ServiceProvider
 {
@@ -15,7 +17,8 @@ class DiscourseServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/discourse.php', 'discourse'
+            __DIR__ . '/../config/discourse.php',
+            'discourse'
         );
     }
 
@@ -27,30 +30,39 @@ class DiscourseServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([
-            __DIR__ . '/../config/discourse.php' => config_path('discourse.php'),
-        ], 'config');
+        $this->publishes(
+            [
+                __DIR__ . '/../config/discourse.php' => config_path('discourse.php'),
+            ],
+            'config'
+        );
 
-        $this->app->singleton(\NikitaMikhno\LaravelDiscourse\Contracts\ApiClient::class, function ($app) {
-            return new Discourse(
-                $this->remove_http($this->app['config']->get('discourse.url')),
-                $this->app['config']->get('discourse.token')
+        $this->app->singleton(
+            ApiClientContract::class,
+            function () {
+                return new Discourse(
+                    $this->remove_http($this->app['config']->get('discourse.url')),
+                    $this->app['config']->get('discourse.token')
+                );
+            }
+        );
+
+        if ($this->app['config']->get('discourse.sso_enabled', false)) {
+            $this->app->singleton(
+                SingleSignOnContract::class,
+                function () {
+                    $sso = new SingleSignOn();
+                    $sso->setSecret($this->app['config']->get('discourse.secret'));
+
+                    return $sso;
+                }
             );
-        });
-
-        if($this->app['config']->get('discourse.sso_enabled', false)) {
-            $this->app->singleton(\NikitaMikhno\LaravelDiscourse\Contracts\SingleSignOn::class, function ($app) {
-                $sso = new SingleSignOn();
-                $sso->setSecret($this->app['config']->get('discourse.secret'));
-
-                return $sso;
-            });
 
             $this->loadRoutes();
         }
     }
 
-    private function loadRoutes()
+    private function loadRoutes(): void
     {
         $this->app['router']
             ->domain(
@@ -65,7 +77,7 @@ class DiscourseServiceProvider extends ServiceProvider
                     [
                         'uses' => 'NikitaMikhno\LaravelDiscourse\Http\Controllers\DiscourseController@login',
                         'as' => 'sso.login',
-                        'middleware' => ['auth']//,'verified']
+                        'middleware' => ['auth']
                     ]
                 );
                 $router->get(
@@ -79,9 +91,10 @@ class DiscourseServiceProvider extends ServiceProvider
     }
 
     // see: https://stackoverflow.com/questions/4357668/how-do-i-remove-http-https-and-slash-from-user-input-in-php
-    private function remove_http($url)
+    private function remove_http(string $url): string
     {
         $disallowed = array('http://', 'https://');
+
         foreach ($disallowed as $d) {
             if (strpos($url, $d) === 0) {
                 return str_replace($d, '', $url);

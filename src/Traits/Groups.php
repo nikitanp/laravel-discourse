@@ -11,7 +11,6 @@ namespace NikitaMikhno\LaravelDiscourse\Traits;
 
 trait Groups
 {
-
     /**
      *
      * Get all groups
@@ -137,8 +136,7 @@ trait Groups
         $title = '',
         $primegroup = 'false',
         $trustlevel = '0'
-    )
-    {
+    ) {
         $groupId = $this->getGroupIdByGroupName($groupname);
         if ($groupId) {
             return false;

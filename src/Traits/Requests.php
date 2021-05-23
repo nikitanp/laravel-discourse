@@ -21,13 +21,19 @@ trait Requests
      */
     private function _getRequest(string $reqString, array $paramArray = [], string $apiUser = 'system', bool $useArrayNumIndexes = true): \stdClass
     {
-        $queryParams = $useArrayNumIndexes ? http_build_query($paramArray) : preg_replace('/\%5B\d+\%5D/', '%5B%5D', http_build_query($paramArray));
+        $queryParams = $useArrayNumIndexes
+            ? http_build_query($paramArray)
+            : preg_replace(
+                '/%5B\d+%5D/',
+                '%5B%5D',
+                http_build_query($paramArray)
+            );
 
-        $url = sprintf('%s://%s%s?%s', $this->_protocol, $this->_dcHostname, ltrim($reqString, '/'), $queryParams);
+        $url = sprintf('%s://%s%s?%s', $this->protocol, $this->hostname, ltrim($reqString, '/'), $queryParams);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Api-Key: " . $this->_apiKey,
+            "Api-Key: " . $this->apiKey,
             "Api-Username: $apiUser"
         ]);
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -58,11 +64,11 @@ trait Requests
      **/
     private function _putpostRequest(string $reqString, array $paramArray, string $apiUser = 'system', $HTTPMETHOD = 'POST'): \stdClass
     {
-        $url = sprintf('%s://%s%s', $this->_protocol, $this->_dcHostname, ltrim($reqString, '/'));
+        $url = sprintf('%s://%s%s', $this->protocol, $this->hostname, ltrim($reqString, '/'));
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Api-Key: " . $this->_apiKey,
+            "Api-Key: " . $this->apiKey,
             "Api-Username: $apiUser"
         ]);
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -128,4 +134,3 @@ trait Requests
         return $this->_putpostRequest($reqString, $paramArray, $apiUser, 'POST');
     }
 }
-

@@ -11,7 +11,6 @@ namespace NikitaMikhno\LaravelDiscourse\Traits;
 
 trait Categories
 {
-
     /**
      * createCategory
      *
@@ -22,8 +21,13 @@ trait Categories
      *
      * @return mixed HTTP return code and API return object
      **/
-    public function createCategory(string $categoryName, string $color = '003399', string $textColor = '636b6f', $parent_category_id = 5, string $userName = 'system')
-    {
+    public function createCategory(
+        string $categoryName,
+        string $color = '003399',
+        string $textColor = '636b6f',
+        $parent_category_id = 5,
+        string $userName = 'system'
+    ) {
         $params = [
             'name' => $categoryName,
             'color' => $color,
@@ -35,8 +39,8 @@ trait Categories
     }
 
     /**
-     * @param $categoryName
-     * @return \stdClass
+     * @param $parentSlug
+     * @return array
      */
     public function getSubCategories($parentSlug)
     {
@@ -62,11 +66,23 @@ trait Categories
      * Edit Category
      *
      * @param integer $catid
+     * @param string $allow_badges
+     * @param string $auto_close_based_on_last_post
+     * @param string $auto_close_hours
+     * @param $background_url
+     * @param string $color
+     * @param string $contains_messages
+     * @param string $email_in
+     * @param string $email_in_allow_strangers
+     * @param string $logo_url
      * @param string $name
      * @param int|string $parent_category_id
      * @param            $groupname
      * @param int|string $position
      * @param string $slug
+     * @param string $suppress_from_homepage
+     * @param string $text_color
+     * @param string $topic_template
      * @param array $permissions
      * @return mixed HTTP return code and API return object
      */
@@ -90,8 +106,7 @@ trait Categories
         $text_color = 'FFFFFF',
         $topic_template = '',
         $permissions
-    )
-    {
+    ) {
         $params = [
             'allow_badges' => $allow_badges,
             'auto_close_based_on_last_post' => $auto_close_based_on_last_post,
@@ -114,7 +129,7 @@ trait Categories
         # Add the permissions - this is an array of group names and integer permission values.
         if (count($permissions) > 0) {
             foreach ($permissions as $key => $value) {
-                $params['permissions[' . $key . ']'] = $permissions[$key];
+                $params['permissions[' . $key . ']'] = $value;
             }
         }
 
@@ -166,8 +181,7 @@ trait Categories
         $text_color = 'FFFFFF',
         $topic_template = '',
         $permissions
-    )
-    {
+    ) {
         $params = [
             'allow_badges' => $allow_badges,
             'auto_close_based_on_last_post' => $auto_close_based_on_last_post,
@@ -190,7 +204,7 @@ trait Categories
         # Add the permissions - this is an array of group names and integer permission values.
         if (count($permissions) > 0) {
             foreach ($permissions as $key => $value) {
-                $params['permissions[' . $key . ']'] = $permissions[$key];
+                $params['permissions[' . $key . ']'] = $value;
             }
         }
 
@@ -211,7 +225,6 @@ trait Categories
 
     public function deleteCategory($id)
     {
-        $response = $this->_deleteRequest("/categories/{$id}", []);
-        return $response->apiresult;
+        return $this->_deleteRequest("/categories/{$id}", [])->apiresult;
     }
 }

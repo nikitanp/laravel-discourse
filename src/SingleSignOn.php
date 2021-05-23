@@ -7,7 +7,6 @@ use NikitaMikhno\LaravelDiscourse\Exceptions\PayloadException;
 
 class SingleSignOn implements SingleSignOnContract
 {
-
     /**
      * @var
      */
@@ -46,6 +45,7 @@ class SingleSignOn implements SingleSignOnContract
         $payload = urldecode($payload);
         $query = array();
         parse_str(base64_decode($payload), $query);
+
         if (!array_key_exists('nonce', $query)) {
             throw new PayloadException('Nonce not found in payload');
         }
@@ -77,9 +77,8 @@ class SingleSignOn implements SingleSignOnContract
      * @param array $extraParameters
      * @return string
      */
-    public function getSignInString($nonce, $id, $email, $extraParameters = [])
+    public function getSignInString($nonce, $id, $email, $extraParameters = []): string
     {
-
         $parameters = array(
                 'nonce' => $nonce,
                 'external_id' => $id,
@@ -100,7 +99,7 @@ class SingleSignOn implements SingleSignOnContract
      * @param $payload
      * @return string
      */
-    protected function signPayload($payload)
+    protected function signPayload($payload): string
     {
         return hash_hmac('sha256', $payload, $this->secret);
     }

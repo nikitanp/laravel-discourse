@@ -3,6 +3,7 @@
 namespace NikitaMikhno\LaravelDiscourse\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use NikitaMikhno\LaravelDiscourse\Contracts\SingleSignOn;
 
 class DiscourseAuth extends Facade
 {
@@ -13,6 +14,6 @@ class DiscourseAuth extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return \NikitaMikhno\LaravelDiscourse\Contracts\SingleSignOn::class;
+        return SingleSignOn::class;
     }
 }

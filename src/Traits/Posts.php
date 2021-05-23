@@ -11,7 +11,6 @@ namespace NikitaMikhno\LaravelDiscourse\Traits;
 
 trait Posts
 {
-
     /**
      * createPost
      *
@@ -74,14 +73,15 @@ trait Posts
     public function getSpecificPostsInTopic(int $topicId, int $limit = 10)
     {
         $discourseTopic = $this->getTopic($topicId);
-        if (!isset($discourseTopic->apiresult->post_stream->stream) || empty($discourseTopic->apiresult->post_stream->stream)) {
+
+        if (!isset($discourseTopic->apiresult->post_stream->stream)) {
             return null;
         }
 
         $postIds = array_slice($discourseTopic->apiresult->post_stream->stream, 0, $limit);
 
         if (!empty($postIds)) {
-            return $this->_getRequest("/t/{$topicId}/posts.json", ['post_ids' => $postIds],'system', false)->apiresult->post_stream->posts ?? null;
+            return $this->_getRequest("/t/{$topicId}/posts.json", ['post_ids' => $postIds], 'system', false)->apiresult->post_stream->posts ?? null;
         }
 
         return null;

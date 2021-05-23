@@ -13,7 +13,6 @@ use stdClass;
 
 trait Users
 {
-
     /**
      *
      * Used for SSO logout action.
@@ -153,7 +152,7 @@ trait Users
      *
      * @return mixed HTTP return code and API return object
      */
-    function getUserByExternalID(string $externalID)
+    public function getUserByExternalID(string $externalID)
     {
         return $this->_getRequest("/users/by-external/{$externalID}.json");
     }

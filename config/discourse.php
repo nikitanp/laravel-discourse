@@ -1,7 +1,8 @@
 <?php
+
 return [
 
-    // API token. 
+    // API token.
     'token' => env('DISCOURSE_TOKEN'),
 
     'sso_enabled' => env('DISCOURSE_SSO_ENABLED', false),
@@ -52,10 +53,10 @@ return [
         // Unique string for the user that will never change
         'external_id' => 'id',
 
-        // Boolean for making user a Discourse moderator. Leave null to ignore 
+        // Boolean for making user a Discourse moderator. Leave null to ignore
         'moderator' => 'discourse_moderator',
 
-        // Full name on Discourse if the user is new or 
+        // Full name on Discourse if the user is new or
         // if SiteSetting.sso_overrides_name is set
         'name' => 'name',
 
@@ -68,7 +69,7 @@ return [
         // If the email has not been verified, set this to true
         'require_activation' => false,
 
-        // username on Discourse if the user is new or 
+        // username on Discourse if the user is new or
         // if SiteSetting.sso_overrides_username is set
         'username' => 'email',
     ],

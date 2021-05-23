@@ -4,7 +4,6 @@ namespace NikitaMikhno\LaravelDiscourse\Contracts;
 
 interface ApiClient
 {
-
     // users
     public function logoutUser(string $userName);
 
@@ -89,7 +88,5 @@ interface ApiClient
     public function getLatestTopicsForTag($name);
 
     // upload
-
     public function uploadFile(string $type, string $file, ?int $userId, bool $synchronous);
-
 }

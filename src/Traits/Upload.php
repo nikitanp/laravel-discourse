@@ -11,8 +11,7 @@ namespace NikitaMikhno\LaravelDiscourse\Traits;
 
 trait Upload
 {
-
-    public array $uploadTypes = [
+    public $uploadTypes = [
         'avatar',
         'profile_background',
         'card_background',
@@ -46,5 +45,4 @@ trait Upload
 
         return $this->_postRequest('/uploads.json', $requestData);
     }
-
 }
