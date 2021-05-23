@@ -14,7 +14,7 @@ class DiscourseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(
             __DIR__ . '/../config/discourse.php',
@@ -28,7 +28,7 @@ class DiscourseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->publishes(
             [
@@ -90,7 +90,7 @@ class DiscourseServiceProvider extends ServiceProvider
             });
     }
 
-    // see: https://stackoverflow.com/questions/4357668/how-do-i-remove-http-https-and-slash-from-user-input-in-php
+    /** @noinspection HttpUrlsUsage */
     private function remove_http(string $url): string
     {
         $disallowed = array('http://', 'https://');

@@ -1,11 +1,4 @@
 <?php
-/**
- *
- * Discourse Posts
- *
- * @link https://docs.discourse.org/#tag/Users
- *
- **/
 
 namespace NikitaMikhno\LaravelDiscourse\Traits;
 
@@ -16,9 +9,9 @@ trait Posts
      *
      * NOT WORKING YET
      *
-     * @param $bodyText
+     * @param string $bodyText
      * @param $topicId
-     * @param $userName
+     * @param string $userName
      * @return \stdClass
      */
     public function createPost(string $bodyText, $topicId, string $userName): \stdClass
@@ -29,24 +22,22 @@ trait Posts
             'topic_id' => $topicId
         ];
 
-        return $this->_postRequest('/posts', [$params], $userName);
+        return $this->postRequest('/posts', [$params], $userName);
     }
 
     /**
      * getPostsByNumber
-     *
      * @param $topic_id
      * @param $post_number
      * @return mixed HTTP return code and API return object
      */
     public function getPostsByNumber($topic_id, $post_number)
     {
-        return $this->_getRequest('/posts/by_number/' . $topic_id . '/' . $post_number . '.json');
+        return $this->getRequest('/posts/by_number/' . $topic_id . '/' . $post_number . '.json');
     }
 
     /**
      * UpdatePost
-     *
      * @param        $bodyhtml
      * @param        $post_id
      * @param string $userName
@@ -61,7 +52,7 @@ trait Posts
             'post[raw]' => $bodyraw
         ];
 
-        return $this->_putRequest('/posts/' . $post_id, [$params], $userName);
+        return $this->putRequest('/posts/' . $post_id, [$params], $userName);
     }
 
     /**
@@ -81,7 +72,12 @@ trait Posts
         $postIds = array_slice($discourseTopic->apiresult->post_stream->stream, 0, $limit);
 
         if (!empty($postIds)) {
-            return $this->_getRequest("/t/{$topicId}/posts.json", ['post_ids' => $postIds], 'system', false)->apiresult->post_stream->posts ?? null;
+            return $this->getRequest(
+                "/t/$topicId/posts.json",
+                ['post_ids' => $postIds],
+                'system',
+                false
+            )->apiresult->post_stream->posts ?? null;
         }
 
         return null;

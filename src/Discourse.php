@@ -14,7 +14,6 @@ use NikitaMikhno\LaravelDiscourse\Traits\Users;
 
 class Discourse implements ApiClient
 {
-    // Most of the heavy lifting api requests are done in traits:
     use Requests;
     use Users;
     use Groups;
@@ -43,8 +42,11 @@ class Discourse implements ApiClient
      * @param string|null $apiKey
      * @param string $protocol
      */
-    public function __construct(string $host, ?string $apiKey = null, string $protocol = 'https')
-    {
+    public function __construct(
+        string $host,
+        ?string $apiKey = null,
+        string $protocol = 'https'
+    ) {
         $this->hostname = $host;
         $this->apiKey = $apiKey;
         $this->protocol = $protocol;
@@ -61,6 +63,6 @@ class Discourse implements ApiClient
             $siteSetting => $value,
         ];
 
-        return $this->_putRequest('/admin/site_settings/' . $siteSetting, [$params]);
+        return $this->putRequest('/admin/site_settings/' . $siteSetting, [$params]);
     }
 }

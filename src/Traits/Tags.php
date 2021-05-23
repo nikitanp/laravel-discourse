@@ -1,19 +1,15 @@
 <?php
-/**
- *
- * Discourse Tags
- *
- * @link https://docs.discourse.org/#tag/Tags
- *
- **/
 
 namespace NikitaMikhno\LaravelDiscourse\Traits;
 
 trait Tags
 {
+    /**
+     * @param $name
+     * @return array
+     */
     public function getTag($name)
     {
-        $url = "/tags/{$name}";
-        return $this->_getRequest($url)->apiresult ?? [];
+        return $this->getRequest("/tags/$name")->apiresult ?? [];
     }
 }

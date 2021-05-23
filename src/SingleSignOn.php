@@ -16,7 +16,7 @@ class SingleSignOn implements SingleSignOnContract
      * @param $secret
      * @return $this
      */
-    public function setSecret($secret)
+    public function setSecret($secret): self
     {
         $this->secret = $secret;
 
@@ -26,9 +26,9 @@ class SingleSignOn implements SingleSignOnContract
     /**
      * @param $payload
      * @param $signature
-     * @return mixed
+     * @return bool
      */
-    public function validatePayload($payload, $signature)
+    public function validatePayload($payload, $signature): bool
     {
         $payload = urldecode($payload);
 

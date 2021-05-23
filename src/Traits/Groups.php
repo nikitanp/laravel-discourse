@@ -1,50 +1,34 @@
 <?php
-/**
- *
- * Discourse Groups
- *
- * @link https://docs.discourse.org/#tag/Groups
- *
- **/
 
 namespace NikitaMikhno\LaravelDiscourse\Traits;
 
 trait Groups
 {
     /**
-     *
      * Get all groups
-     *
      * @return mixed HTTP return code and API return object
-     *
      **/
     public function getGroups()
     {
-        return $this->_getRequest('/groups.json');
+        return $this->getRequest('/groups.json');
     }
 
     /**
-     *
      * Group by group name
-     *
-     * @param string $group name of group
+     * @param $groupname
      * @return mixed HTTP return code and API return object
-     *
-     **/
+     */
     public function getGroup($groupname)
     {
-        return $this->_getRequest('/groups/' . $groupname . '.json');
+        return $this->getRequest('/groups/' . $groupname . '.json');
     }
 
     /**
      *
      * joinGroup
-     *
      * @param string $groupname name of group
      * @param string $username user to add to the group
-     *
      * @return mixed HTTP return code and API return object
-     *
      **/
     public function joinGroup($groupname, $username)
     {
@@ -57,16 +41,13 @@ trait Groups
             'usernames' => $username
         ];
 
-        return $this->_putRequest('/groups/' . $groupId . '/members.json', [$params]);
+        return $this->putRequest('/groups/' . $groupId . '/members.json', [$params]);
     }
 
     /**
      * getGroupIdByGroupName
-     *
      * @param string $groupname name of group
-     *
      * @return mixed id of the group, or false if nonexistent
-     *
      **/
     public function getGroupIdByGroupName($groupname)
     {
@@ -79,11 +60,9 @@ trait Groups
     }
 
     /**
-     *
      * @param $groupname
      * @param $username
      * @return bool|\stdClass
-     *
      **/
     public function leaveGroup($groupname, $username)
     {
@@ -96,26 +75,22 @@ trait Groups
             'user_id' => $userid
         ];
 
-        return $this->_deleteRequest('/groups/' . $groupId . '/members.json', [$params]);
+        return $this->deleteRequest('/groups/' . $groupId . '/members.json', [$params]);
     }
 
     /**
      * getGroupMembers
-     *
      * @param string $group name of group
      * @return mixed HTTP return code and API return object
-     *
      */
     public function getGroupMembers($group)
     {
-        return $this->_getRequest("/groups/{$group}/members.json");
+        return $this->getRequest("/groups/$group/members.json");
     }
 
     /**
-     *
      * @param string $groupname name of group to be created
      * @param array $usernames users in the group
-     *
      * @param int $aliaslevel
      * @param string $visible
      * @param string $automemdomain
@@ -124,7 +99,6 @@ trait Groups
      * @param string $primegroup
      * @param string $trustlevel
      * @return mixed HTTP return code and API return object
-     *
      **/
     public function addGroup(
         $groupname,
@@ -156,14 +130,12 @@ trait Groups
             ]
         ];
 
-        return $this->_postRequest('/admin/groups', $params);
+        return $this->postRequest('/admin/groups', $params);
     }
 
     /**
-     *
      * @param string $groupname
      * @return bool|\stdClass
-     *
      */
     public function removeGroup(string $groupname)
     {
@@ -172,6 +144,6 @@ trait Groups
             return false;
         }
 
-        return $this->_deleteRequest('/admin/groups/' . (string)$groupId, []);
+        return $this->deleteRequest("/admin/groups/$groupId", []);
     }
 }

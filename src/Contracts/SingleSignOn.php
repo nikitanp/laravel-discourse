@@ -12,5 +12,10 @@ interface SingleSignOn
 
     public function getReturnSSOURL($payload);
 
-    public function getSignInString($nonce, $id, $email, $extraParameters = []);
+    public function getSignInString(
+        $nonce,
+        $id,
+        $email,
+        $extraParameters = []
+    );
 }

@@ -1,11 +1,4 @@
 <?php
-/**
- *
- * Discourse Topics
- *
- * @link https://docs.discourse.org/#tag/Topics
- *
- **/
 
 namespace NikitaMikhno\LaravelDiscourse\Traits;
 
@@ -13,24 +6,28 @@ use stdClass;
 
 trait Topics
 {
+    /**
+     * @param $name
+     * @return array|mixed
+     */
     public function getLatestTopicsForTag($name)
     {
-        $url = "/tags/{$name}/l/latest.json?order=default&ascending=false&filter=tags/{$name}/l/latest";
-        return $this->_getRequest($url)->apiresult->topic_list->topics ?? [];
+        $url = "/tags/$name/l/latest.json?order=default&ascending=false&filter=tags/$name/l/latest";
+        return $this->getRequest($url)->apiresult->topic_list->topics ?? [];
     }
 
-    public function makeTopicUrl(string $slug, $id)
+    /**
+     * @param string $slug
+     * @param $id
+     * @return string
+     */
+    public function makeTopicUrl(string $slug, $id): string
     {
-        return trim(config('discourse.url'), '/') . "/t/{$slug}/{$id}";
+        return trim(config('discourse.url'), '/') . "/t/$slug/$id";
     }
-
-
-
-    //////////////  TOPICS
 
     /**
      * createTopic
-     *
      * @param string $topicTitle title of topic
      * @param string $bodyText body text of topic post
      * @param string $categoryId
@@ -49,52 +46,47 @@ trait Topics
             'reply_to_post_number' => $replyToId
         ];
 
-        return $this->_postRequest('/posts', [$params], $userName);
+        return $this->postRequest('/posts', [$params], $userName);
     }
 
     /**
      * getTopic
-     *
      * @param $topicId
      * @return \stdClass
      */
     public function getTopic($topicId): stdClass
     {
-        return $this->_getRequest("/t/{$topicId}.json");
+        return $this->getRequest("/t/$topicId.json");
     }
 
     /**
      * topTopics
-     *
      * @param string $category slug of category
      * @param string $period daily, weekly, monthly, yearly
-     *
      * @return mixed HTTP return code and API return object
      */
     public function topTopics($category, $period = 'daily')
     {
-        return $this->_getRequest('/c/' . $category . '/l/top/' . $period . '.json');
+        return $this->getRequest('/c/' . $category . '/l/top/' . $period . '.json');
     }
 
     /**
      * latestTopics
-     *
      * @param string $category slug of category
-     *
      * @return mixed HTTP return code and API return object
      */
     public function latestTopics($category)
     {
-        return $this->_getRequest('/c/' . $category . '/l/latest.json');
+        return $this->getRequest('/c/' . $category . '/l/latest.json');
     }
 
     /**
      * delete single topic
      * @param int $topicId
-     * @return mixed
+     * @return bool
      */
-    public function deleteTopic(int $topicId)
+    public function deleteTopic(int $topicId): bool
     {
-        return $this->_deleteRequest("/t/{$topicId}.json", [])->http_code === 200;
+        return $this->deleteRequest("/t/$topicId.json", [])->http_code === 200;
     }
 }

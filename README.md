@@ -7,9 +7,7 @@
 
 ## Version Compatibility
 
-| Laravel Framework   | Discourse API Client |
-| :-------- | :---------- |
-| ^6&#124;^7&#124;^8   | 0.0.6 |
+Laravel framework 6 and higher.
 
 ## Getting Started
 

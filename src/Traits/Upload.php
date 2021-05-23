@@ -1,28 +1,11 @@
 <?php
-/**
- *
- * Discourse Upload
- *
- * @link https://docs.discourse.org/#tag/Upload
- *
- **/
 
 namespace NikitaMikhno\LaravelDiscourse\Traits;
 
 trait Upload
 {
-    public $uploadTypes = [
-        'avatar',
-        'profile_background',
-        'card_background',
-        'custom_emoji',
-        'composer'
-    ];
-
     /**
-     *
      * Upload a file like an image or an avatar.
-     *
      * @param string $type
      * @param string $file
      * @param int|null $userId
@@ -32,7 +15,15 @@ trait Upload
      */
     public function uploadFile(string $type, string $file, ?int $userId = null, bool $synchronous = false)
     {
-        if (!in_array($type, $this->uploadTypes, true)) {
+        $uploadTypes = [
+            'avatar',
+            'profile_background',
+            'card_background',
+            'custom_emoji',
+            'composer'
+        ];
+
+        if (!in_array($type, $uploadTypes, true)) {
             throw new \Exception('Unsupported upload type!');
         }
 
@@ -43,6 +34,6 @@ trait Upload
             'synchronous' => $synchronous,
         ];
 
-        return $this->_postRequest('/uploads.json', $requestData);
+        return $this->postRequest('/uploads.json', $requestData);
     }
 }
