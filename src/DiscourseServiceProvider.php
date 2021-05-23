@@ -41,7 +41,7 @@ class DiscourseServiceProvider extends ServiceProvider
             ApiClientContract::class,
             function () {
                 return new Discourse(
-                    $this->remove_http($this->app['config']->get('discourse.url')),
+                    $this->remove_http($this->app['config']->get('discourse.url', '')),
                     $this->app['config']->get('discourse.token')
                 );
             }
