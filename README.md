@@ -1,11 +1,15 @@
-PHP Discourse Client for the Laravel Framework
-==============
+# Discourse API Client and SSO for the Laravel Framework
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/nikitanp/laravel-discourse.svg?style=flat-square)](https://packagist.org/packages/nikitanp/alfacrm-api-php)
+[![Total Downloads](https://img.shields.io/packagist/dt/nikitanp/laravel-discourse.svg?style=flat-square)](https://packagist.org/packages/nikitanp/alfacrm-api-php)
+
+---
 
 ## Version Compatibility
 
-| Laravel Framework   | Discourse Client |
+| Laravel Framework   | Discourse API Client |
 | :-------- | :---------- |
-| > 6 or higher   | 0.0.3 |
+| ^6&#124;^7&#124;^8   | 0.0.6 |
 
 ## Getting Started
 
@@ -15,28 +19,11 @@ place to start. Additional help with SSO: [https://meta.discourse.org](https://m
 
 ## Installation
 
-To install through composer, simply put the following in your `composer.json` file:
-
-```json
-{
-  "require": {
-    "nikitanp/laravel-discourse": "^0.0.3"
-  }
-}
+```
+composer require nikitanp/laravel-discourse
 ```
 
-And then run `composer install` from the terminal.
-
-Add the following to config/app.php if you version laravel doesn't support package auto discovering:
-
-```php
-    /*
-    * $APP_PATH/config/app.php
-    */
-    'providers' => [
-        NikitaMikhno\LaravelDiscourse\DiscourseServiceProvider::class
-    ],
-```
+This package auto discovered by laravel!
 
 You can optionally publish the config file with:
 
@@ -45,7 +32,7 @@ php artisan vendor:publish --provider="NikitaMikhno\LaravelDiscourse\DiscourseSe
 
 ```
 
-# Configure Laravel Discourse
+# Configure Laravel Discourse API Library
 
 ## Laravel Env
 
