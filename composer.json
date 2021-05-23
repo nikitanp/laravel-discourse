@@ -20,7 +20,8 @@
   },
   "require-dev": {
     "orchestra/testbench": "^4",
-    "friendsofphp/php-cs-fixer": "^3.0"
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "vimeo/psalm": "^4.7"
   },
   "autoload": {
     "psr-4": {
