@@ -23,7 +23,7 @@ return [
     'suppress_welcome_message' => 'true',
 
     // Where the Discourse forum lives
-    'url' => env('DISCOURSE_URL'),
+    'url' => env('DISCOURSE_URL', ''),
 
     // User-specific items
     // NOTE: The 'email' & 'external_id' are the only 2 required fields
