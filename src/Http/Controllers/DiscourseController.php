@@ -64,7 +64,7 @@ class DiscourseController extends Controller
      * @param Request $request
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws 403
+     * @throws \Illuminate\Http\Exceptions\HttpResponseException
      */
     public function login(Request $request)
     {
