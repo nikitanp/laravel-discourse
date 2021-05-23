@@ -1,7 +1,7 @@
 # Discourse API Client and SSO for the Laravel Framework
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/nikitanp/laravel-discourse.svg?style=flat-square)](https://packagist.org/packages/nikitanp/alfacrm-api-php)
-[![Total Downloads](https://img.shields.io/packagist/dt/nikitanp/laravel-discourse.svg?style=flat-square)](https://packagist.org/packages/nikitanp/alfacrm-api-php)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/nikitanp/laravel-discourse.svg?style=flat-square)](https://packagist.org/packages/nikitanp/laravel-discourse)
+[![Total Downloads](https://img.shields.io/packagist/dt/nikitanp/laravel-discourse.svg?style=flat-square)](https://packagist.org/packages/nikitanp/laravel-discourse)
 
 ---
 
